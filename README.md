@@ -49,6 +49,14 @@ npm run compose:up
 npm run migrate
 ```
 
+Caso você já tenha alguma migração aplicada e deseje desfazê-la, execute o comando abaixo:
+
+```bash
+npm run migrate:reset
+```
+
+Lembre-se de que este comando irá desfazer todas as migrações aplicadas.
+
 ## Configurações
 
 Crie um arquivo `.env` na raiz do projeto com base no `.env.example` fornecido, preenchendo as variáveis de ambiente necessárias para a configuração do sistema.

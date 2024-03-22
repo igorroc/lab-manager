@@ -9,7 +9,8 @@
 		"lint": "next lint",
 		"compose:up": "docker-compose up -d",
 		"vercel-build": "prisma generate && prisma migrate deploy && next build",
-		"migrate": "npx prisma migrate dev && npx prisma generate"
+		"migrate": "npx prisma migrate dev && npx prisma generate",
+		"migrate:reset": "npx prisma migrate reset --force"
 	},
 	"dependencies": {
 		"@prisma/client": "^5.11.0",

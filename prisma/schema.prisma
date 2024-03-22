@@ -11,3 +11,9 @@ datasource db {
   directUrl         = env("POSTGRES_URL_NON_POOLING")
   shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING")
 }
+
+model User {
+  id    String     @id @default(uuid())
+  email String  @unique
+  name  String?
+}
