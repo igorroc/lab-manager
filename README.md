@@ -37,8 +37,10 @@ npm install
 
 3. Inicie o container do banco de dados:
 
+Lembre-se de iniciar o docker antes de executar o comando abaixo.
+
 ```bash
-docker-compose up -d
+npm run compose:up
 ```
 
 4. Execute as migrações do banco de dados:
