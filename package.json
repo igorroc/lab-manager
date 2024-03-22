@@ -10,7 +10,8 @@
 		"compose:up": "docker-compose up -d",
 		"vercel-build": "prisma generate && prisma migrate deploy && next build",
 		"migrate": "npx prisma migrate dev && npx prisma generate",
-		"migrate:reset": "npx prisma migrate reset --force"
+		"migrate:reset": "npx prisma migrate reset --force",
+		"prisma:studio": "npx prisma studio"
 	},
 	"dependencies": {
 		"@prisma/client": "^5.11.0",

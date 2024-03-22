@@ -71,6 +71,14 @@ npm run dev
 
 Acesse http://localhost:3000 no seu navegador para visualizar o sistema em execução.
 
+Caso você deseje verificar o banco de dados, rode o comando abaixo:
+
+```bash
+npm run prisma:studio
+```
+
+Com isso, você poderá visualizar o banco de dados e realizar consultas diretamente no Prisma Studio.
+
 ## Contribuições
 
 Contribuições são bem-vindas! Para contribuir, siga os passos abaixo:
