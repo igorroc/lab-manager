@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Sistema de Gestão de Laboratórios e Salas
 
-## Getting Started
+![Sistema de Gestão de Laboratórios e Salas](caminho/para/imagem.png)
 
-First, run the development server:
+## Descrição
+
+Este projeto desenvolve um sistema de gestão de laboratórios e salas destinado a facilitar a organização e a busca por espaços acadêmicos. Administradores do sistema podem cadastrar e gerenciar informações relativas a salas, laboratórios, professores, disciplinas e turmas. Usuários têm à disposição funcionalidades para realizar buscas e visualizar calendários das suas buscas, melhorando significativamente a acessibilidade e a gestão dos espaços educacionais.
+
+## Funcionalidades
+
+-   **Para Administradores:**
+    -   Cadastro e gerenciamento de salas, laboratórios, professores, disciplinas e turmas.
+-   **Para Usuários:**
+    -   Realização de buscas e visualização de calendários baseados nas buscas.
+
+## Tecnologias Utilizadas
+
+-   **Frontend e Backend:** Next.js
+-   **Banco de Dados:** PostgreSQL
+-   **Containerização:** Docker
+-   **Deploy:** Vercel
+
+## Como Instalar
+
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/igorroc/lab-manager.git
+cd lab-manager
+```
+
+2. Instale as dependências:
+
+```bash
+npm install
+```
+
+3. Inicie o container do banco de dados:
+
+```bash
+docker-compose up -d
+```
+
+4. Execute as migrações do banco de dados:
+
+```bash
+npm run migrate
+```
+
+## Configurações
+
+Crie um arquivo `.env` na raiz do projeto com base no `.env.example` fornecido, preenchendo as variáveis de ambiente necessárias para a configuração do sistema.
+
+## Como Executar
+
+Após configurar o ambiente, inicie a aplicação localmente:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse http://localhost:3000 no seu navegador para visualizar o sistema em execução.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contribuições
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Contribuições são bem-vindas! Para contribuir, siga os passos abaixo:
 
-## Learn More
+1. Faça um fork do projeto
+2. Crie uma nova branch com a sua feature: `git checkout -b feature/nome-da-feature`
+3. Faça commit das suas alterações: `git commit -m 'feat: My new feature'`
+4. Faça push para a sua branch: `git push origin feature/nome-da-feature`
+5. Abra um Pull Request
+6. Após a aprovação da sua PR, você pode fazer o merge da sua branch para a branch principal
 
-To learn more about Next.js, take a look at the following resources:
+## Licença
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Contato
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+-   **Desenvolvedor:** Igor Rocha
+-   **E-mail:** [igor@ilrocha.com](mailto:igor@ilrocha.com)
