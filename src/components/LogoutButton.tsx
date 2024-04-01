@@ -1,14 +1,16 @@
 "use client"
 
 import { useState } from "react"
+import { toast } from "react-toastify"
 import { Button } from "@nextui-org/react"
+import { useRouter } from "next/navigation"
 
 import { TbLogout2 } from "react-icons/tb"
 
 import { authenticateLogout } from "@/modules/auth"
-import { toast } from "react-toastify"
 
 export default function LogOutButton() {
+	const router = useRouter()
 	const [isLoggingOut, setIsLoggingOut] = useState(false)
 
 	async function handleButtonClick() {
@@ -22,6 +24,7 @@ export default function LogOutButton() {
 			isLoading: false,
 			autoClose: 2000,
 		})
+		router.push("/auth/login")
 	}
 
 	return (
