@@ -5,7 +5,7 @@ import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import { Button, Input, Textarea } from "@nextui-org/react"
 
-import { createSubject } from "@/actions/subjects/create"
+import { createSubjectAction } from "@/actions/subjects/create"
 
 export default function Form() {
 	const router = useRouter()
@@ -13,7 +13,7 @@ export default function Form() {
 
 	async function handleSubmit(formData: FormData) {
 		setLoading(true)
-		const created = await createSubject(formData)
+		const created = await createSubjectAction(formData)
 
 		if ("error" in created) {
 			toast.error(created.error)

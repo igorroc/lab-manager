@@ -1,8 +1,10 @@
 "use server"
 
-import db from "@/modules/db"
-import { checkGreaterThan, validateStringTime } from "@/utils/Date"
 import { Prisma, WeekDay } from "@prisma/client"
+
+import db from "@/modules/db"
+
+import { checkGreaterThan, validateStringTime } from "@/utils/Date"
 
 export async function createScheduleAction(formData: FormData) {
 	const newSchedule = {
@@ -43,7 +45,6 @@ export async function createScheduleAction(formData: FormData) {
 		if (err instanceof Prisma.PrismaClientKnownRequestError) {
 			return {
 				error: "Erro no banco de dados",
-				details: err,
 			}
 		}
 

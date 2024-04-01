@@ -1,8 +1,10 @@
 "use server"
 
+import { Prisma } from "@prisma/client"
+
 import db from "@/modules/db"
 
-export async function createClassroom(formData: FormData) {
+export async function createClassroomAction(formData: FormData) {
 	const newClassroom = {
 		name: formData.get("name") as string,
 		capacity: Number(formData.get("capacity")),
@@ -18,8 +20,10 @@ export async function createClassroom(formData: FormData) {
 
 		return created
 	} catch (err) {
-		if (err instanceof Error) {
-			return { error: err.message }
+		if (err instanceof Prisma.PrismaClientKnownRequestError) {
+			return {
+				error: "Erro no banco de dados",
+			}
 		}
 
 		return { error: "Erro desconhecido" }

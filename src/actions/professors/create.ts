@@ -1,7 +1,8 @@
 "use server"
 
-import db from "@/modules/db"
 import { Prisma } from "@prisma/client"
+
+import db from "@/modules/db"
 
 export async function createProfessorAction(formData: FormData) {
 	const newProfessor = {
@@ -21,6 +22,10 @@ export async function createProfessorAction(formData: FormData) {
 		if (err instanceof Prisma.PrismaClientKnownRequestError) {
 			if (err.code === "P2002") {
 				return { error: "Já existe um professor com esse email" }
+			}
+
+			return {
+				error: "Erro no banco de dados",
 			}
 		}
 

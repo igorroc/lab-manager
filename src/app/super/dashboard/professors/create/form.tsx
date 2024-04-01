@@ -18,7 +18,7 @@ export default function Form() {
 		if ("error" in created) {
 			toast.error(created.error)
 		} else {
-			toast.success("Professor cadastrada com sucesso!")
+			toast.success("Professor cadastrado com sucesso!")
 			router.push("/super/dashboard/professors")
 		}
 

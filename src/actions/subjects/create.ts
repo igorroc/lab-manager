@@ -1,9 +1,10 @@
 "use server"
 
-import db from "@/modules/db"
 import { Prisma } from "@prisma/client"
 
-export async function createSubject(formData: FormData) {
+import db from "@/modules/db"
+
+export async function createSubjectAction(formData: FormData) {
 	const newSubject = {
 		name: formData.get("name") as string,
 		code: formData.get("code") as string,
@@ -23,6 +24,10 @@ export async function createSubject(formData: FormData) {
 		if (err instanceof Prisma.PrismaClientKnownRequestError) {
 			if (err.code === "P2002") {
 				return { error: "Já existe uma disciplina com esse código" }
+			}
+
+			return {
+				error: "Erro no banco de dados",
 			}
 		}
 

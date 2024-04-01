@@ -1,7 +1,8 @@
 "use server"
 
-import db from "@/modules/db"
 import { Prisma } from "@prisma/client"
+
+import db from "@/modules/db"
 
 export type TClassGroupWithEverything = Prisma.ClassGroupGetPayload<{
 	include: {
@@ -12,7 +13,7 @@ export type TClassGroupWithEverything = Prisma.ClassGroupGetPayload<{
 }>
 
 export async function createClassGroupAction(formData: FormData) {
-	const newProfessor = {
+	const newClassGroup = {
 		name: formData.get("name") as string,
 		alumniCount: Number(formData.get("alumniCount")),
 		observation: formData.get("observation") as string,
@@ -24,14 +25,14 @@ export async function createClassGroupAction(formData: FormData) {
 
 	try {
 		const created = await db.classGroup.create({
-			data: newProfessor,
+			data: newClassGroup,
 		})
 
 		return created
 	} catch (err) {
 		if (err instanceof Prisma.PrismaClientKnownRequestError) {
-			if (err.code === "P2002") {
-				return { error: "Já existe um professor com esse email" }
+			return {
+				error: "Erro no banco de dados",
 			}
 		}
 
