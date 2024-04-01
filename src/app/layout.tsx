@@ -20,7 +20,11 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="pt-br">
-			<body className={inter.className}>
+			<body
+				className={[inter.className, "dark text-foreground bg-background min-h-dvh"].join(
+					" "
+				)}
+			>
 				<ToastContainer />
 				{children}
 			</body>
