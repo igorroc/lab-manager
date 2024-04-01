@@ -26,7 +26,7 @@ export default function Form(props: FormProps) {
 			toast.error(created.error)
 		} else {
 			toast.success("Horário cadastrado com sucesso!")
-			router.push("/super/dashboard/schedules")
+			router.push("/super/schedules")
 		}
 
 		setLoading(false)
@@ -35,7 +35,7 @@ export default function Form(props: FormProps) {
 	useEffect(() => {
 		if (props.classGroups.length === 0) {
 			toast.error("Nenhuma turma cadastrada")
-			return router.push("/super/dashboard/class-groups/create")
+			return router.push("/super/class-groups/create")
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.classGroups])

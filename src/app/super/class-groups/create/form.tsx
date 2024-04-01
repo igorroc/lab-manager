@@ -26,7 +26,7 @@ export default function Form(props: FormProps) {
 			toast.error(created.error)
 		} else {
 			toast.success("Turma cadastrada com sucesso!")
-			router.push("/super/dashboard/class-groups")
+			router.push("/super/class-groups")
 		}
 
 		setLoading(false)
@@ -35,15 +35,15 @@ export default function Form(props: FormProps) {
 	useEffect(() => {
 		if (props.subjects.length === 0) {
 			toast.error("Nenhuma disciplina cadastrada")
-			return router.push("/super/dashboard/subjects/create")
+			return router.push("/super/subjects/create")
 		}
 		if (props.professors.length === 0) {
 			toast.error("Nenhum professor cadastrado")
-			return router.push("/super/dashboard/professors/create")
+			return router.push("/super/professors/create")
 		}
 		if (props.classrooms.length === 0) {
 			toast.error("Nenhuma sala cadastrada")
-			return router.push("/super/dashboard/classrooms/create")
+			return router.push("/super/classrooms/create")
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.subjects])

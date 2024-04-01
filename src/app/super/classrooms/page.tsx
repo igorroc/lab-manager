@@ -18,7 +18,7 @@ export default async function ViewClassrooms() {
 					color="primary"
 					endContent={<FaPlus />}
 					as={Link}
-					href="/super/dashboard/classrooms/create"
+					href="/super/classrooms/create"
 				>
 					Adicionar
 				</Button>

@@ -48,7 +48,7 @@ export default function ClassroomsTable(props: OrderProps) {
 				<div className="relative flex items-center gap-2">
 					<Tooltip content="Editar sala de aula">
 						<Link
-							href={`/super/dashboard/classrooms/${item.id}/edit`}
+							href={`/super/classrooms/${item.id}/edit`}
 							className="text-lg text-default-400 cursor-pointer active:opacity-50"
 						>
 							<FaRegEdit />

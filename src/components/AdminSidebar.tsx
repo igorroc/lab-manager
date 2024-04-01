@@ -21,32 +21,32 @@ export default function AdminSidebar() {
 		{
 			name: "Salas de Aula",
 			icon: <MdMeetingRoom />,
-			href: "/super/dashboard/classrooms",
+			href: "/super/classrooms",
 		},
 		{
 			name: "Disciplinas",
 			icon: <FaBook />,
-			href: "/super/dashboard/subjects",
+			href: "/super/subjects",
 		},
 		{
 			name: "Professores",
 			icon: <FaChalkboardTeacher />,
-			href: "/super/dashboard/professors",
+			href: "/super/professors",
 		},
 		{
 			name: "Turmas",
 			icon: <FaPeopleGroup />,
-			href: "/super/dashboard/class-groups",
+			href: "/super/class-groups",
 		},
 		{
 			name: "Horários",
 			icon: <FaClock />,
-			href: "/super/dashboard/schedules",
+			href: "/super/schedules",
 		},
 		{
 			name: "Configurações",
 			icon: <FaCog />,
-			href: "/super/dashboard/settings",
+			href: "/super/settings",
 		},
 	]
 
