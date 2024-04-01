@@ -51,7 +51,7 @@ export default function AdminSidebar() {
 	]
 
 	function checkCurrentRoute(routePath: string) {
-		return pathname === routePath
+		return pathname.includes(routePath)
 	}
 
 	return (
