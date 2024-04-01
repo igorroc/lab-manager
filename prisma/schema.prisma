@@ -68,7 +68,6 @@ model Subject {
   observation    String?
   semester       Int
   hours          Int
-  maxHoursPerDay Int
   priority       Int     @default(0)
   priorityPeriod Period?
 
