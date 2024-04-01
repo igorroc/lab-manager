@@ -18,7 +18,9 @@ export async function middleware(request: NextRequest) {
 			}
 		}
 	} else {
-		return Response.redirect(new URL("/auth/login", request.url))
+		if (!request.nextUrl.pathname.startsWith("/auth")) {
+			return Response.redirect(new URL("/auth/login", request.url))
+		}
 	}
 }
 
