@@ -55,7 +55,7 @@ model Classroom {
   capacity       Int
   priority       Int    @default(0)
 
-  turms Turm[]
+  turms ClassGroup[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -71,13 +71,26 @@ model Subject {
   priority       Int     @default(0)
   priorityPeriod Period?
 
-  turms Turm[]
+  turms ClassGroup[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Turm {
+model Professor {
+  id          String  @id @default(cuid())
+  name        String
+  email       String  @unique
+  observation String?
+  color       String  @default("#ef531c")
+
+  turms ClassGroup[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ClassGroup {
   id          String  @id @default(cuid())
   name        String
   observation String?
@@ -97,19 +110,6 @@ model Turm {
   updatedAt DateTime @updatedAt
 }
 
-model Professor {
-  id          String  @id @default(cuid())
-  name        String
-  email       String  @unique
-  observation String?
-  color       String  @default("#ef531c")
-
-  turms Turm[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Schedule {
   id           String   @id @default(cuid())
   dayOfWeek    WeekDay
@@ -117,7 +117,7 @@ model Schedule {
   endTime      DateTime
   stepDuration Int
 
-  turm   Turm   @relation(fields: [turmId], references: [id])
+  turm   ClassGroup @relation(fields: [turmId], references: [id])
   turmId String
 
   createdAt DateTime @default(now())
