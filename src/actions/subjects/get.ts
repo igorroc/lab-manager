@@ -7,3 +7,13 @@ export async function getAllSubjects() {
 
 	return subjects
 }
+
+export async function getSubjectById(id: string) {
+	const subject = await db.subject.findUnique({
+		where: {
+			id,
+		},
+	})
+
+	return subject
+}

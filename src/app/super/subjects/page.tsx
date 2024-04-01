@@ -1,38 +1,26 @@
 import { getAllSubjects } from "@/actions/subjects/get"
+import { Button } from "@nextui-org/react"
+import Link from "next/link"
+import { FaPlus } from "react-icons/fa"
+import SubjectsTable from "./table"
 
 export default async function ViewSubjects() {
 	const subjects = await getAllSubjects()
 
 	return (
 		<div>
-			<h1>Disciplinas</h1>
-			<table>
-				<thead>
-					<tr>
-						<th>Nome</th>
-						<th>Código</th>
-						<th>Semestre</th>
-						<th>Carga horária</th>
-						<th>Prioridade</th>
-					</tr>
-				</thead>
-				<tbody>
-					{subjects.map((classroom) => (
-						<tr key={classroom.id}>
-							<td>{classroom.name}</td>
-							<td>{classroom.code}</td>
-							<td>{classroom.semester}</td>
-							<td>{classroom.hours}</td>
-							<td>{classroom.priority}</td>
-						</tr>
-					))}
-					{subjects.length === 0 && (
-						<tr>
-							<td colSpan={5}>Nenhuma disciplina cadastrada</td>
-						</tr>
-					)}
-				</tbody>
-			</table>
+			<div className="my-4 flex justify-between">
+				<h1 className="font-bold text-xl">Disciplinas</h1>
+				<Button
+					color="primary"
+					endContent={<FaPlus />}
+					as={Link}
+					href="/super/subjects/create"
+				>
+					Adicionar
+				</Button>
+			</div>
+			<SubjectsTable subjects={subjects} />
 		</div>
 	)
 }
