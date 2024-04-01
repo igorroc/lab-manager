@@ -12,8 +12,115 @@ datasource db {
   shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
+enum Period {
+  MORNING
+  AFTERNOON
+  NIGHT
+}
+
+enum WeekDay {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+model SuperUser {
+  id       String @id @default(cuid())
+  name     String
+  email    String @unique
+  password String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model User {
-  id    String     @id @default(uuid())
-  email String  @unique
-  name  String?
+  id       String @id @default(cuid())
+  name     String
+  email    String @unique
+  password String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Classroom {
+  id             String @id @default(cuid())
+  name           String
+  computerCount  Int
+  projectorCount Int
+  capacity       Int
+  priority       Int    @default(0)
+
+  turms Turm[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subject {
+  id             String  @id @default(cuid())
+  name           String
+  code           String  @unique
+  observation    String?
+  semester       Int
+  hours          Int
+  maxHoursPerDay Int
+  priority       Int     @default(0)
+  priorityPeriod Period?
+
+  turms Turm[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Turm {
+  id          String  @id @default(cuid())
+  name        String
+  observation String?
+  alumniCount Int
+  color       String  @default("#275d2b")
+
+  subject     Subject   @relation(fields: [subjectId], references: [id])
+  subjectId   String
+  professor   Professor @relation(fields: [professorId], references: [id])
+  professorId String
+  classroom   Classroom @relation(fields: [classroomId], references: [id])
+  classroomId String
+
+  schedules Schedule[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Professor {
+  id          String  @id @default(cuid())
+  name        String
+  email       String  @unique
+  observation String?
+  color       String  @default("#ef531c")
+
+  turms Turm[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Schedule {
+  id           String   @id @default(cuid())
+  dayOfWeek    WeekDay
+  startTime    DateTime
+  endTime      DateTime
+  stepDuration Int
+
+  turm   Turm   @relation(fields: [turmId], references: [id])
+  turmId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
