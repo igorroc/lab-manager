@@ -12,6 +12,12 @@ type TUser = {
 	name: string
 }
 
+type TSuperUser = {
+	id: string
+	email: string
+	name: string
+}
+
 export async function encrypt(payload: any) {
 	return await new SignJWT(payload)
 		.setProtectedHeader({ alg: "HS256" })
@@ -36,6 +42,11 @@ export async function authenticateLogin(user: any) {
 
 	cookies().set("session", session, { httpOnly: true })
 }
+export async function authenticateLoginSuper(user: any) {
+	const session = await encrypt({ super: user })
+
+	cookies().set("session", session, { httpOnly: true })
+}
 
 export async function authenticateLogout() {
 	cookies().set("session", "", { httpOnly: true, expires: new Date(0) })
@@ -53,6 +64,14 @@ export async function getSession() {
 	return payload
 }
 
-export async function getUserBySession(session: JWTPayload) {
+export async function getUserBySession() {
+	const session = await getSession()
+	if (!session || !session.user) return null
 	return session.user as TUser
+}
+
+export async function getSuperBySession() {
+	const session = await getSession()
+	if (!session || !session.super) return null
+	return session.super as TSuperUser
 }
