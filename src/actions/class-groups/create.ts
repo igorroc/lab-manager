@@ -3,6 +3,14 @@
 import db from "@/modules/db"
 import { Prisma } from "@prisma/client"
 
+export type TClassGroupWithEverything = Prisma.ClassGroupGetPayload<{
+	include: {
+		classroom: true
+		professor: true
+		subject: true
+	}
+}>
+
 export async function createClassGroupAction(formData: FormData) {
 	const newProfessor = {
 		name: formData.get("name") as string,
