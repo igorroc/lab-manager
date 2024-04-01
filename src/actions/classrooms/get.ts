@@ -7,3 +7,13 @@ export async function getAllClassrooms() {
 
 	return classrooms
 }
+
+export async function getClassroomById(id: string) {
+	const classroom = await db.classroom.findUnique({
+		where: {
+			id,
+		},
+	})
+
+	return classroom
+}

@@ -1,38 +1,29 @@
+import Link from "next/link"
+import { Button } from "@nextui-org/react"
+
+import { FaPlus } from "react-icons/fa"
+
 import { getAllClassrooms } from "@/actions/classrooms/get"
-import React from "react"
+
+import ClassroomsTable from "./table"
 
 export default async function ViewClassrooms() {
 	const classrooms = await getAllClassrooms()
+
 	return (
 		<div>
-			<h1>Salas de aula/Laboratório</h1>
-			<table>
-				<thead>
-					<tr>
-						<th>Nome</th>
-						<th>Capacidade</th>
-						<th>Computadores</th>
-						<th>Projetores</th>
-						<th>Prioridade</th>
-					</tr>
-				</thead>
-				<tbody>
-					{classrooms.map((classroom) => (
-						<tr key={classroom.id}>
-							<td>{classroom.name}</td>
-							<td>{classroom.capacity}</td>
-							<td>{classroom.computerCount}</td>
-							<td>{classroom.projectorCount}</td>
-							<td>{classroom.priority}</td>
-						</tr>
-					))}
-					{classrooms.length === 0 && (
-						<tr>
-							<td colSpan={2}>Nenhuma sala de aula/laboratório cadastrada</td>
-						</tr>
-					)}
-				</tbody>
-			</table>
+			<div className="my-4 flex justify-between">
+				<h1 className="font-bold text-xl">Salas de aula</h1>
+				<Button
+					color="primary"
+					endContent={<FaPlus />}
+					as={Link}
+					href="/super/dashboard/classrooms/create"
+				>
+					Adicionar
+				</Button>
+			</div>
+			<ClassroomsTable classrooms={classrooms} />
 		</div>
 	)
 }
