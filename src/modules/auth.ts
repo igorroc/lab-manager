@@ -6,6 +6,12 @@ import { cookies } from "next/headers"
 const secretKey = process.env.AUTHENTICATION_SECRET_KEY
 const key = new TextEncoder().encode(secretKey)
 
+type TUser = {
+	id: string
+	email: string
+	name: string
+}
+
 export async function encrypt(payload: any) {
 	return await new SignJWT(payload)
 		.setProtectedHeader({ alg: "HS256" })
@@ -48,8 +54,5 @@ export async function getSession() {
 }
 
 export async function getUserBySession(session: JWTPayload) {
-	return session.user as {
-		id: string
-		email: string
-	}
+	return session.user as TUser
 }
