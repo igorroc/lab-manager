@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Login() {
 	return (
-		<main>
+		<main className="h-dvh flex items-center justify-center">
 			<Form />
 		</main>
 	)

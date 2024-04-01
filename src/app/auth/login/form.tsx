@@ -3,6 +3,7 @@
 import { Role } from "@prisma/client"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
+import { Button, Input } from "@nextui-org/react"
 
 import { loginAction } from "@/actions/auth/login"
 
@@ -26,12 +27,13 @@ export default function Form() {
 	}
 
 	return (
-		<form action={handleSubmit} className="flex flex-col items-center">
-			<label htmlFor="email">Email</label>
-			<input type="email" name="email" id="email" className="text-black" />
-			<label htmlFor="password">Senha</label>
-			<input type="password" name="password" id="password" className="text-black" />
-			<button type="submit">Entrar</button>
+		<form action={handleSubmit} className="flex flex-col items-center gap-2">
+			<Input name="email" type="email" label="E-mail" />
+			<Input name="password" type="password" label="Senha" />
+
+			<Button type="submit" color="primary" className="w-full">
+				Entrar
+			</Button>
 		</form>
 	)
 }
