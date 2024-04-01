@@ -1,5 +1,6 @@
-import { getSession, getSuperBySession, getUserBySession } from "@/modules/auth"
 import { NextRequest } from "next/server"
+
+import { getSession, getSuperBySession, getUserBySession } from "@/modules/auth"
 
 export async function middleware(request: NextRequest) {
 	const session = await getSession()
