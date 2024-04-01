@@ -5,6 +5,8 @@ import bcrypt from "bcrypt"
 import db from "@/modules/db"
 import { authenticateLogin } from "@/modules/auth"
 
+import { wait } from "@/utils/Await"
+
 export async function loginAction(formData: FormData) {
 	const email = formData.get("email") as string
 	const password = formData.get("password") as string
@@ -34,6 +36,8 @@ export async function loginAction(formData: FormData) {
 			error: "Usuário ou senha incorretos",
 		}
 	}
+
+	await wait(1000)
 
 	await authenticateLogin(existingUser)
 
