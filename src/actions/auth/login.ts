@@ -3,9 +3,9 @@
 import bcrypt from "bcrypt"
 
 import db from "@/modules/db"
-import { authenticateLoginSuper } from "@/modules/auth"
+import { authenticateLogin } from "@/modules/auth"
 
-export async function loginSuper(formData: FormData) {
+export async function loginAction(formData: FormData) {
 	const email = formData.get("email") as string
 	const password = formData.get("password") as string
 
@@ -15,7 +15,7 @@ export async function loginSuper(formData: FormData) {
 		}
 	}
 
-	const existingUser = await db.superUser.findFirst({
+	const existingUser = await db.user.findFirst({
 		where: {
 			email,
 		},
@@ -35,7 +35,7 @@ export async function loginSuper(formData: FormData) {
 		}
 	}
 
-	await authenticateLoginSuper(existingUser)
+	await authenticateLogin(existingUser)
 
 	return existingUser
 }

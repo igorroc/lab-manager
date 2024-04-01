@@ -3,10 +3,10 @@ import { Metadata } from "next"
 import Form from "./form"
 
 export const metadata: Metadata = {
-	title: "Super Login",
+	title: "Login",
 }
 
-export default function SuperLogin() {
+export default function Login() {
 	return (
 		<main>
 			<Form />

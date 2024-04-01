@@ -1,22 +1,11 @@
 "use server"
 
+import { User } from "@prisma/client"
 import { JWTPayload, SignJWT, jwtVerify } from "jose"
 import { cookies } from "next/headers"
 
 const secretKey = process.env.AUTHENTICATION_SECRET_KEY
 const key = new TextEncoder().encode(secretKey)
-
-type TUser = {
-	id: string
-	email: string
-	name: string
-}
-
-type TSuperUser = {
-	id: string
-	email: string
-	name: string
-}
 
 export async function encrypt(payload: any) {
 	return await new SignJWT(payload)
@@ -37,17 +26,11 @@ export async function decrypt(input: string): Promise<JWTPayload | null> {
 	}
 }
 
-export async function authenticateLogin(user: any) {
+export async function authenticateLogin(user: User) {
 	const session = await encrypt({ user })
 
 	cookies().set("session", session, { httpOnly: true })
 }
-export async function authenticateLoginSuper(user: any) {
-	const session = await encrypt({ super: user })
-
-	cookies().set("session", session, { httpOnly: true })
-}
-
 export async function authenticateLogout() {
 	cookies().set("session", "", { httpOnly: true, expires: new Date(0) })
 }
@@ -67,11 +50,5 @@ export async function getSession() {
 export async function getUserBySession() {
 	const session = await getSession()
 	if (!session || !session.user) return null
-	return session.user as TUser
-}
-
-export async function getSuperBySession() {
-	const session = await getSession()
-	if (!session || !session.super) return null
-	return session.super as TSuperUser
+	return session.user as User
 }
