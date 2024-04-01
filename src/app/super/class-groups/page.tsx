@@ -13,7 +13,7 @@ export default async function ViewSubjects() {
 						<th>Alunos</th>
 						<th>Professor</th>
 						<th>Disciplina</th>
-						<th>Sala</th>
+						<th>Laboratório</th>
 					</tr>
 				</thead>
 				<tbody>

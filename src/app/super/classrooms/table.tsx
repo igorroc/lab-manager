@@ -46,7 +46,7 @@ export default function ClassroomsTable(props: OrderProps) {
 		if (columnKey === "actions") {
 			return (
 				<div className="relative flex items-center gap-2">
-					<Tooltip content="Editar sala de aula">
+					<Tooltip content="Editar laboratório">
 						<Link
 							href={`/super/classrooms/${item.id}/edit`}
 							className="text-lg text-default-400 cursor-pointer active:opacity-50"
@@ -83,7 +83,7 @@ export default function ClassroomsTable(props: OrderProps) {
 			<TableHeader columns={columns}>
 				{(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
 			</TableHeader>
-			<TableBody items={items} emptyContent={"Nenhuma sala de aula encontrada"}>
+			<TableBody items={items} emptyContent={"Nenhum laboratório encontrado"}>
 				{(item) => (
 					<TableRow key={item.id}>
 						{(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}

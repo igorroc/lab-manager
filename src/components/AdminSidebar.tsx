@@ -19,7 +19,7 @@ export default function AdminSidebar() {
 			href: "/super/dashboard",
 		},
 		{
-			name: "Salas de Aula",
+			name: "Laboratórios",
 			icon: <MdMeetingRoom />,
 			href: "/super/classrooms",
 		},

@@ -13,7 +13,7 @@ export default async function ViewClassrooms() {
 	return (
 		<div>
 			<div className="my-4 flex justify-between">
-				<h1 className="font-bold text-xl">Salas de aula</h1>
+				<h1 className="font-bold text-xl">Laboratórios</h1>
 				<Button
 					color="primary"
 					endContent={<FaPlus />}

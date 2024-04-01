@@ -25,7 +25,7 @@ export default function Form(props: FormProps) {
 		if ("error" in created) {
 			toast.error(created.error)
 		} else {
-			toast.success("Sala editada com sucesso!")
+			toast.success("Laboratório editado com sucesso!")
 			router.push("/super/classrooms")
 		}
 

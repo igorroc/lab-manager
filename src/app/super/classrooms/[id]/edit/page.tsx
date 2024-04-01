@@ -12,7 +12,7 @@ export default async function EditClassroom(props: EditProps) {
 	const classroom = await getClassroomById(props.params.id)
 
 	if (!classroom) {
-		return <div>Sala de aula não encontrada</div>
+		return <div>Laboratório não encontrado</div>
 	}
 
 	return (

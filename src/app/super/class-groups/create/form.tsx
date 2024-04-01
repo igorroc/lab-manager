@@ -42,7 +42,7 @@ export default function Form(props: FormProps) {
 			return router.push("/super/professors/create")
 		}
 		if (props.classrooms.length === 0) {
-			toast.error("Nenhuma sala cadastrada")
+			toast.error("Nenhum laboratório cadastrado")
 			return router.push("/super/classrooms/create")
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,8 +83,8 @@ export default function Form(props: FormProps) {
 			</Select>
 			<Select
 				items={props.classrooms}
-				label="Sala"
-				placeholder="Selecione a sala"
+				label="Laboratório"
+				placeholder="Selecione o laboratório"
 				name="classroom"
 			>
 				{(classroom) => <SelectItem key={classroom.id}>{classroom.name}</SelectItem>}
