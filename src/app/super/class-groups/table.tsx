@@ -33,6 +33,7 @@ export default function ClassGroupsTable(props: OrderProps) {
 	}, [page, props.classGroups])
 
 	const columns = [
+		{ key: "color", label: "Cor" },
 		{ key: "name", label: "Nome" },
 		{ key: "alumniCount", label: "Qtd Alunos" },
 		{ key: "professor", label: "Professor" },
@@ -67,6 +68,10 @@ export default function ClassGroupsTable(props: OrderProps) {
 		}
 		if (columnKey === "classroom") {
 			return item.classroom.name
+		}
+
+		if (columnKey === "color") {
+			return <div className="w-4 h-4 rounded-full" style={{ backgroundColor: value }} />
 		}
 
 		return value
