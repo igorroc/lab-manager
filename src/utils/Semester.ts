@@ -1,5 +1,4 @@
 export const DefaultSemesters = [
-	{ id: 0, name: "Todos" },
 	{ id: 1, name: "1º Semestre" },
 	{ id: 2, name: "2º Semestre" },
 	{ id: 3, name: "3º Semestre" },

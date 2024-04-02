@@ -17,21 +17,21 @@ type CalendarProps = {
 export default function CalendarClient(props: CalendarProps) {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 	const [selectedSchedule, setSelectedSchedule] = useState<ScheduleWithRelations | null>(null)
-	const [selectedSemester, setSelectedSemester] = useState<number>(-1)
+	const [selectedSemester, setSelectedSemester] = useState<number[]>([])
 	const [selectedProfessors, setSelectedProfessors] = useState<string[]>([])
 
 	const mappedProfessors = props.schedules.map((schedule) => schedule.classGroup.professor)
 
 	const filteredSchedules = props.schedules.filter((schedule) => {
 		const isSemester =
-			selectedSemester == DefaultSemesters[0].id ||
-			schedule.classGroup.subject.semester === selectedSemester
+			selectedSemester.length === 0 ||
+			selectedSemester.includes(schedule.classGroup.subject.semester)
 
 		const isProfessor =
 			selectedProfessors.length === 0 ||
 			selectedProfessors.includes(schedule.classGroup.professor.id)
 
-		return isSemester || isProfessor
+		return isSemester && isProfessor
 	})
 
 	function handleOpen(schedule: ScheduleWithRelations) {
@@ -66,9 +66,13 @@ export default function CalendarClient(props: CalendarProps) {
 					<Select
 						items={DefaultSemesters}
 						label="Semestre"
-						selectionMode="single"
+						selectionMode="multiple"
 						onChange={(value) => {
-							setSelectedSemester(value.target.value as unknown as number)
+							if (value.target.value) {
+								setSelectedSemester(value.target.value.split(",").map(Number))
+							} else {
+								setSelectedSemester([])
+							}
 						}}
 						className="w-52"
 					>
