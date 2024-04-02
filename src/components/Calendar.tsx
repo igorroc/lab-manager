@@ -7,7 +7,6 @@ export default async function Calendar() {
 
 	return (
 		<div className="my-10 w-full">
-			<h1 className="font-bold text-xl">Calendário</h1>
 			<CalendarClient schedules={schedules} />
 		</div>
 	)

@@ -34,22 +34,26 @@ export default function CalendarClient(props: CalendarProps) {
 
 	return (
 		<>
-			<div className="">
-				<Select
-					items={DefaultSemesters}
-					label="Semestre"
-					placeholder="Selecione um semestre"
-					selectionMode="single"
-					onChange={(value) => {
-						setSelectedSemester(value.target.value as unknown as number)
-					}}
-				>
-					{(semester) => (
-						<SelectItem key={semester.id} value={semester.id}>
-							{semester.name}
-						</SelectItem>
-					)}
-				</Select>
+			<div className="flex justify-between items-center mb-8">
+				<h1 className="font-bold text-xl">Calendário</h1>
+				<div className="flex justify-end">
+					<Select
+						items={DefaultSemesters}
+						label="Semestre"
+						placeholder="Selecione um semestre"
+						selectionMode="single"
+						onChange={(value) => {
+							setSelectedSemester(value.target.value as unknown as number)
+						}}
+						className="w-64"
+					>
+						{(semester) => (
+							<SelectItem key={semester.id} value={semester.id}>
+								{semester.name}
+							</SelectItem>
+						)}
+					</Select>
+				</div>
 			</div>
 			<div className="w-full flex justify-between">
 				{TWeekDays.map((day) => (
