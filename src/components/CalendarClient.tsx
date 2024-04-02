@@ -19,8 +19,10 @@ export default function CalendarClient(props: CalendarProps) {
 	const [selectedSchedule, setSelectedSchedule] = useState<ScheduleWithRelations | null>(null)
 	const [selectedSemester, setSelectedSemester] = useState<number[]>([])
 	const [selectedProfessors, setSelectedProfessors] = useState<string[]>([])
+	const [selectedClassrooms, setSelectedClassrooms] = useState<string[]>([])
 
 	const mappedProfessors = props.schedules.map((schedule) => schedule.classGroup.professor)
+	const mappedClassrooms = props.schedules.map((schedule) => schedule.classGroup.classroom)
 
 	const filteredSchedules = props.schedules.filter((schedule) => {
 		const isSemester =
@@ -31,7 +33,11 @@ export default function CalendarClient(props: CalendarProps) {
 			selectedProfessors.length === 0 ||
 			selectedProfessors.includes(schedule.classGroup.professor.id)
 
-		return isSemester && isProfessor
+		const isClassroom =
+			selectedClassrooms.length === 0 ||
+			selectedClassrooms.includes(schedule.classGroup.classroom.id)
+
+		return isSemester && isProfessor && isClassroom
 	})
 
 	function handleOpen(schedule: ScheduleWithRelations) {
@@ -44,6 +50,25 @@ export default function CalendarClient(props: CalendarProps) {
 			<div className="flex justify-between items-center mb-8">
 				<h1 className="font-bold text-xl">Calendário</h1>
 				<div className="flex justify-end gap-2">
+					<Select
+						items={mappedClassrooms}
+						label="Laboratório"
+						selectionMode="multiple"
+						onChange={(value) => {
+							if (value.target.value) {
+								setSelectedClassrooms(value.target.value.split(","))
+							} else {
+								setSelectedClassrooms([])
+							}
+						}}
+						className="w-52"
+					>
+						{(classroom) => (
+							<SelectItem key={classroom.id} value={classroom.id}>
+								{classroom.name}
+							</SelectItem>
+						)}
+					</Select>
 					<Select
 						items={mappedProfessors}
 						label="Professor"
