@@ -1,11 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { useDisclosure } from "@nextui-org/react"
+import { Select, SelectItem, useDisclosure } from "@nextui-org/react"
 
 import { ScheduleWithRelations } from "@/actions/schedules/get"
 
 import { TWeekDays } from "@/utils/WeekDay"
+import { DefaultSemesters } from "@/utils/Semester"
 
 import ModalSchedule from "./ModalSchedule"
 
@@ -16,6 +17,15 @@ type CalendarProps = {
 export default function CalendarClient(props: CalendarProps) {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 	const [selectedSchedule, setSelectedSchedule] = useState<ScheduleWithRelations | null>(null)
+	const [selectedSemester, setSelectedSemester] = useState<number>(DefaultSemesters[0].id)
+
+	const filteredSchedules = props.schedules.filter((schedule) => {
+		if (selectedSemester == DefaultSemesters[0].id) {
+			return true
+		}
+
+		return schedule.classGroup.subject.semester == selectedSemester
+	})
 
 	function handleOpen(schedule: ScheduleWithRelations) {
 		setSelectedSchedule(schedule)
@@ -24,11 +34,28 @@ export default function CalendarClient(props: CalendarProps) {
 
 	return (
 		<>
+			<div className="">
+				<Select
+					items={DefaultSemesters}
+					label="Semestre"
+					placeholder="Selecione um semestre"
+					selectionMode="single"
+					onChange={(value) => {
+						setSelectedSemester(value.target.value as unknown as number)
+					}}
+				>
+					{(semester) => (
+						<SelectItem key={semester.id} value={semester.id}>
+							{semester.name}
+						</SelectItem>
+					)}
+				</Select>
+			</div>
 			<div className="w-full flex justify-between">
 				{TWeekDays.map((day) => (
 					<div key={day.id}>
 						<h2>{day.name}</h2>
-						{props.schedules
+						{filteredSchedules
 							.filter((schedule) => schedule.dayOfWeek === day.id)
 							.map((schedule) => (
 								<button
@@ -48,6 +75,9 @@ export default function CalendarClient(props: CalendarProps) {
 					</div>
 				))}
 			</div>
+			{filteredSchedules.length === 0 && (
+				<p className="text-center">Nenhum horário encontrado com o filtro selecionado</p>
+			)}
 			<ModalSchedule
 				selectedSchedule={selectedSchedule}
 				isOpen={isOpen}
