@@ -17,14 +17,21 @@ type CalendarProps = {
 export default function CalendarClient(props: CalendarProps) {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 	const [selectedSchedule, setSelectedSchedule] = useState<ScheduleWithRelations | null>(null)
-	const [selectedSemester, setSelectedSemester] = useState<number>(DefaultSemesters[0].id)
+	const [selectedSemester, setSelectedSemester] = useState<number>(-1)
+	const [selectedProfessors, setSelectedProfessors] = useState<string[]>([])
+
+	const mappedProfessors = props.schedules.map((schedule) => schedule.classGroup.professor)
 
 	const filteredSchedules = props.schedules.filter((schedule) => {
-		if (selectedSemester == DefaultSemesters[0].id) {
-			return true
-		}
+		const isSemester =
+			selectedSemester == DefaultSemesters[0].id ||
+			schedule.classGroup.subject.semester === selectedSemester
 
-		return schedule.classGroup.subject.semester == selectedSemester
+		const isProfessor =
+			selectedProfessors.length === 0 ||
+			selectedProfessors.includes(schedule.classGroup.professor.id)
+
+		return isSemester || isProfessor
 	})
 
 	function handleOpen(schedule: ScheduleWithRelations) {
@@ -36,16 +43,34 @@ export default function CalendarClient(props: CalendarProps) {
 		<>
 			<div className="flex justify-between items-center mb-8">
 				<h1 className="font-bold text-xl">Calendário</h1>
-				<div className="flex justify-end">
+				<div className="flex justify-end gap-2">
+					<Select
+						items={mappedProfessors}
+						label="Professor"
+						selectionMode="multiple"
+						onChange={(value) => {
+							if (value.target.value) {
+								setSelectedProfessors(value.target.value.split(","))
+							} else {
+								setSelectedProfessors([])
+							}
+						}}
+						className="w-52"
+					>
+						{(professor) => (
+							<SelectItem key={professor.id} value={professor.id}>
+								{professor.name}
+							</SelectItem>
+						)}
+					</Select>
 					<Select
 						items={DefaultSemesters}
 						label="Semestre"
-						placeholder="Selecione um semestre"
 						selectionMode="single"
 						onChange={(value) => {
 							setSelectedSemester(value.target.value as unknown as number)
 						}}
-						className="w-64"
+						className="w-52"
 					>
 						{(semester) => (
 							<SelectItem key={semester.id} value={semester.id}>
