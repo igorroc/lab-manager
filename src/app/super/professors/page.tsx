@@ -1,32 +1,29 @@
+import Link from "next/link"
+import { Button } from "@nextui-org/react"
+
+import { FaPlus } from "react-icons/fa"
+
 import { getAllProfessors } from "@/actions/professors/get"
+
+import ProfessorsTable from "./table"
 
 export default async function ViewProfessors() {
 	const professors = await getAllProfessors()
 
 	return (
 		<div>
-			<h1>Professores</h1>
-			<table>
-				<thead>
-					<tr>
-						<th>Nome</th>
-						<th>Email</th>
-					</tr>
-				</thead>
-				<tbody>
-					{professors.map((classroom) => (
-						<tr key={classroom.id}>
-							<td>{classroom.name}</td>
-							<td>{classroom.email}</td>
-						</tr>
-					))}
-					{professors.length === 0 && (
-						<tr>
-							<td colSpan={5}>Nenhum professor cadastrado</td>
-						</tr>
-					)}
-				</tbody>
-			</table>
+			<div className="my-4 flex justify-between">
+				<h1 className="font-bold text-xl">Professores</h1>
+				<Button
+					color="primary"
+					endContent={<FaPlus />}
+					as={Link}
+					href="/super/professors/create"
+				>
+					Adicionar
+				</Button>
+			</div>
+			<ProfessorsTable professors={professors} />
 		</div>
 	)
 }

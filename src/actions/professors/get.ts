@@ -7,3 +7,13 @@ export async function getAllProfessors() {
 
 	return professors
 }
+
+export async function getProfessorById(id: string) {
+	const professor = await db.professor.findUnique({
+		where: {
+			id,
+		},
+	})
+
+	return professor
+}
