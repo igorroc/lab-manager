@@ -35,6 +35,7 @@ export default function Form(props: FormProps) {
 	return (
 		<form action={handleSubmit} className="flex flex-col items-center gap-2">
 			<Input
+				isRequired
 				isDisabled={loading}
 				name="name"
 				type="text"
@@ -42,6 +43,7 @@ export default function Form(props: FormProps) {
 				defaultValue={props.classroom.name}
 			/>
 			<Input
+				isRequired
 				isDisabled={loading}
 				name="capacity"
 				type="number"
@@ -49,6 +51,7 @@ export default function Form(props: FormProps) {
 				defaultValue={props.classroom.capacity.toString()}
 			/>
 			<Input
+				isRequired
 				isDisabled={loading}
 				name="computerCount"
 				type="number"
@@ -56,6 +59,7 @@ export default function Form(props: FormProps) {
 				defaultValue={props.classroom.computerCount.toString()}
 			/>
 			<Input
+				isRequired
 				isDisabled={loading}
 				name="projectorCount"
 				type="number"

@@ -27,15 +27,23 @@ export default function Form() {
 
 	return (
 		<form action={handleSubmit} className="flex flex-col items-center gap-2">
-			<Input isDisabled={loading} name="name" type="text" label="Nome" />
-			<Input isDisabled={loading} name="capacity" type="number" label="Capacidade" />
+			<Input isRequired isDisabled={loading} name="name" type="text" label="Nome" />
 			<Input
+				isRequired
+				isDisabled={loading}
+				name="capacity"
+				type="number"
+				label="Capacidade"
+			/>
+			<Input
+				isRequired
 				isDisabled={loading}
 				name="computerCount"
 				type="number"
 				label="Quantidade de computadores"
 			/>
 			<Input
+				isRequired
 				isDisabled={loading}
 				name="projectorCount"
 				type="number"

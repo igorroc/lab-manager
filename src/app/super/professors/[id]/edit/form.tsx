@@ -35,6 +35,7 @@ export default function Form(props: FormProps) {
 		<form action={handleSubmit} className="flex flex-col items-center gap-2">
 			<Input
 				isDisabled={loading}
+				isRequired
 				name="name"
 				type="text"
 				label="Nome"
@@ -42,6 +43,7 @@ export default function Form(props: FormProps) {
 			/>
 			<Input
 				isDisabled={loading}
+				isRequired
 				name="email"
 				type="email"
 				label="Email"

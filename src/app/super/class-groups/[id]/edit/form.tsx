@@ -54,11 +54,13 @@ export default function Form(props: FormProps) {
 	return (
 		<form action={handleSubmit} className="flex flex-col items-center gap-2">
 			<Input
+				isRequired
 				isDisabled={loading}
 				name="name"
 				type="text"
 				label="Nome"
 				defaultValue={props.classGroup.name}
+				description="Exemplo: T1"
 			/>
 			<Textarea
 				isDisabled={loading}
@@ -67,6 +69,7 @@ export default function Form(props: FormProps) {
 				defaultValue={props.classGroup.observation || ""}
 			/>
 			<Input
+				isRequired
 				isDisabled={loading}
 				name="alumniCount"
 				type="number"
@@ -81,6 +84,7 @@ export default function Form(props: FormProps) {
 				defaultValue={props.classGroup.color}
 			/>
 			<Select
+				isRequired
 				items={props.professors}
 				label="Professor"
 				placeholder="Selecione o professor"
@@ -90,6 +94,7 @@ export default function Form(props: FormProps) {
 				{(professor) => <SelectItem key={professor.id}>{professor.name}</SelectItem>}
 			</Select>
 			<Select
+				isRequired
 				items={props.subjects}
 				label="Disciplina"
 				placeholder="Selecione a disciplina"
@@ -99,6 +104,7 @@ export default function Form(props: FormProps) {
 				{(subject) => <SelectItem key={subject.id}>{subject.name}</SelectItem>}
 			</Select>
 			<Select
+				isRequired
 				items={props.classrooms}
 				label="Laboratório"
 				placeholder="Selecione o laboratório"

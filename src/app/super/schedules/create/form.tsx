@@ -42,9 +42,22 @@ export default function Form(props: FormProps) {
 
 	return (
 		<form action={handleSubmit} className="flex flex-col items-center gap-2">
-			<Input isDisabled={loading} name="startTime" type="time" label="Horário de início" />
-			<Input isDisabled={loading} name="endTime" type="time" label="Horário de término" />
 			<Input
+				isRequired
+				isDisabled={loading}
+				name="startTime"
+				type="time"
+				label="Horário de início"
+			/>
+			<Input
+				isRequired
+				isDisabled={loading}
+				name="endTime"
+				type="time"
+				label="Horário de término"
+			/>
+			<Input
+				isRequired
 				isDisabled={loading}
 				name="stepDuration"
 				type="number"
@@ -52,6 +65,7 @@ export default function Form(props: FormProps) {
 				defaultValue="50"
 			/>
 			<Select
+				isRequired
 				items={TWeekDays}
 				name="dayOfWeek"
 				label="Dia da semana"
@@ -61,6 +75,7 @@ export default function Form(props: FormProps) {
 				{(day) => <SelectItem key={day.id}>{day.name}</SelectItem>}
 			</Select>
 			<Select
+				isRequired
 				items={props.classGroups}
 				label="Turma"
 				placeholder="Selecione a turma"

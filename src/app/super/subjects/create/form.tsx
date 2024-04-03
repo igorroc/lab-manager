@@ -27,11 +27,17 @@ export default function Form() {
 
 	return (
 		<form action={handleSubmit} className="flex flex-col items-center gap-2">
-			<Input isDisabled={loading} name="name" type="text" label="Nome" />
-			<Input isDisabled={loading} name="code" type="text" label="Código" />
+			<Input isRequired isDisabled={loading} name="name" type="text" label="Nome" />
+			<Input isRequired isDisabled={loading} name="code" type="text" label="Código" />
 			<Textarea isDisabled={loading} name="observation" label="Observações" />
-			<Input isDisabled={loading} name="semester" type="number" label="Semestre" />
-			<Input isDisabled={loading} name="hours" type="number" label="Carga horária" />
+			<Input isRequired isDisabled={loading} name="semester" type="number" label="Semestre" />
+			<Input
+				isRequired
+				isDisabled={loading}
+				name="hours"
+				type="number"
+				label="Carga horária"
+			/>
 			<Input isDisabled={loading} name="priority" type="number" label="Prioridade" />
 			<Button isLoading={loading} color="primary" className="w-full" type="submit">
 				Cadastrar
