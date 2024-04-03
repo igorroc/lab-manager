@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { ScrollShadow, Select, SelectItem, useDisclosure } from "@nextui-org/react"
+import { Input, ScrollShadow, Select, SelectItem, useDisclosure } from "@nextui-org/react"
 
 import { ScheduleWithRelations } from "@/actions/schedules/get"
 
@@ -29,6 +29,7 @@ export default function CalendarClient(props: CalendarProps) {
 	const [selectedSemester, setSelectedSemester] = useState<number[]>([])
 	const [selectedProfessors, setSelectedProfessors] = useState<string[]>([])
 	const [selectedClassrooms, setSelectedClassrooms] = useState<string[]>([])
+	const [subjectSearch, setSubjectSearch] = useState("")
 
 	const mappedProfessors = Array.from(
 		new Set(props.schedules.map((schedule) => schedule.classGroup.professor.id))
@@ -70,9 +71,18 @@ export default function CalendarClient(props: CalendarProps) {
 					selectedClassrooms.length === 0 ||
 					selectedClassrooms.includes(schedule.classGroup.classroom.id)
 
-				return isSemester && isProfessor && isClassroom
+				const isSubjectSearch =
+					subjectSearch === "" ||
+					schedule.classGroup.subject.name
+						.toLowerCase()
+						.includes(subjectSearch.toLowerCase()) ||
+					schedule.classGroup.subject.code
+						.toLowerCase()
+						.includes(subjectSearch.toLowerCase())
+
+				return isSemester && isProfessor && isClassroom && isSubjectSearch
 			}),
-		[props.schedules, selectedClassrooms, selectedProfessors, selectedSemester]
+		[props.schedules, selectedClassrooms, selectedProfessors, selectedSemester, subjectSearch]
 	)
 
 	function handleOpen(schedule: ScheduleWithRelations) {
@@ -98,6 +108,15 @@ export default function CalendarClient(props: CalendarProps) {
 			<div className="flex justify-between items-center mb-8">
 				<h1 className="font-bold text-xl">Calendário</h1>
 				<div className="flex justify-end gap-2">
+					<Input
+						placeholder="Buscar pelo nome da disciplina ou pelo código"
+						onChange={(e) => setSubjectSearch(e.target.value)}
+						value={subjectSearch}
+						classNames={{
+							inputWrapper: "h-full",
+						}}
+						className="w-52"
+					/>
 					<Select
 						items={mappedClassrooms}
 						label="Laboratório"
