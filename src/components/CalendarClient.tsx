@@ -212,9 +212,9 @@ export default function CalendarClient(props: CalendarProps) {
 								return (
 									<div key={time}>
 										<div
-											className={`flex flex-col p-2 left-8 md:left-24 absolute ${
+											className={`flex flex-col p-2 left-10 md:left-24 absolute ${
 												!collapsedTimeSlots[index_period][index]
-													? "justify-between h-32"
+													? "justify-between h-40"
 													: "justify-center h-2 py-4"
 											}`}
 										>
@@ -235,7 +235,7 @@ export default function CalendarClient(props: CalendarProps) {
 														className={`flex flex-col items-center transition-all py-4 ${
 															collapsedTimeSlots[index_period][index]
 																? "h-2"
-																: "h-32"
+																: "h-40"
 														}`}
 														hideScrollBar
 													>
