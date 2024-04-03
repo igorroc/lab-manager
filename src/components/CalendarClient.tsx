@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { ScrollShadow, Select, SelectItem, useDisclosure } from "@nextui-org/react"
 
 import { ScheduleWithRelations } from "@/actions/schedules/get"
@@ -55,21 +55,25 @@ export default function CalendarClient(props: CalendarProps) {
 		mappedTimeSlots.map((period) => Array(period.length).fill(false))
 	)
 
-	const filteredSchedules = props.schedules.filter((schedule) => {
-		const isSemester =
-			selectedSemester.length === 0 ||
-			selectedSemester.includes(schedule.classGroup.subject.semester)
+	const filteredSchedules = useMemo(
+		() =>
+			props.schedules.filter((schedule) => {
+				const isSemester =
+					selectedSemester.length === 0 ||
+					selectedSemester.includes(schedule.classGroup.subject.semester)
 
-		const isProfessor =
-			selectedProfessors.length === 0 ||
-			selectedProfessors.includes(schedule.classGroup.professor.id)
+				const isProfessor =
+					selectedProfessors.length === 0 ||
+					selectedProfessors.includes(schedule.classGroup.professor.id)
 
-		const isClassroom =
-			selectedClassrooms.length === 0 ||
-			selectedClassrooms.includes(schedule.classGroup.classroom.id)
+				const isClassroom =
+					selectedClassrooms.length === 0 ||
+					selectedClassrooms.includes(schedule.classGroup.classroom.id)
 
-		return isSemester && isProfessor && isClassroom
-	})
+				return isSemester && isProfessor && isClassroom
+			}),
+		[props.schedules, selectedClassrooms, selectedProfessors, selectedSemester]
+	)
 
 	function handleOpen(schedule: ScheduleWithRelations) {
 		setSelectedSchedule(schedule)
@@ -84,8 +88,10 @@ export default function CalendarClient(props: CalendarProps) {
 				})
 			})
 		})
+
 		setCollapsedTimeSlots(newCollapsedTimeSlots)
-	}, [mappedTimeSlots, filteredSchedules])
+		// eslint-disable-next-line
+	}, [filteredSchedules])
 
 	return (
 		<>
