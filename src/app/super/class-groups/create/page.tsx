@@ -3,7 +3,7 @@ import Form from "./form"
 import { getAllSubjects } from "@/actions/subjects/get"
 import { getAllClassrooms } from "@/actions/classrooms/get"
 
-export const revalidate = 10
+export const revalidate = 1
 
 export default async function CreateClassGroup() {
 	const professors = await getAllProfessors()
