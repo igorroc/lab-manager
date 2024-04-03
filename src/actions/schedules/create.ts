@@ -4,7 +4,7 @@ import { Prisma, WeekDay } from "@prisma/client"
 
 import db from "@/modules/db"
 
-import { checkGreaterThan, validateStringTime } from "@/utils/Date"
+import { checkTimeGreaterThan, validateStringTime } from "@/utils/Date"
 
 export async function createScheduleAction(formData: FormData) {
 	const newSchedule = {
@@ -23,7 +23,7 @@ export async function createScheduleAction(formData: FormData) {
 		return { error: "O horário de início e de término não podem ser iguais" }
 	}
 
-	if (!checkGreaterThan(newSchedule.startTime, newSchedule.endTime)) {
+	if (!checkTimeGreaterThan(newSchedule.startTime, newSchedule.endTime)) {
 		return { error: "O horário de término deve ser maior que o horário de início" }
 	}
 

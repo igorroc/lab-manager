@@ -3,7 +3,7 @@ export function validateStringTime(time: string): boolean {
 	return timeRegex.test(time)
 }
 
-export function checkGreaterThan(start: string, end: string): boolean {
+export function checkTimeGreaterThan(start: string, end: string): boolean {
 	const startMinutes = parseInt(start.split(":")[0]) * 60 + parseInt(start.split(":")[1])
 	const endMinutes = parseInt(end.split(":")[0]) * 60 + parseInt(end.split(":")[1])
 

@@ -6,7 +6,7 @@ import { Select, SelectItem, useDisclosure } from "@nextui-org/react"
 import { ScheduleWithRelations } from "@/actions/schedules/get"
 
 import { TWeekDays } from "@/utils/WeekDay"
-import { createTimeSlots, checkGreaterThan, checkTimeGreaterEqualThan } from "@/utils/Date"
+import { createTimeSlots, checkTimeGreaterThan, checkTimeGreaterEqualThan } from "@/utils/Date"
 import { DefaultSemesters } from "@/utils/Semester"
 
 import ModalSchedule from "./ModalSchedule"
@@ -139,7 +139,7 @@ export default function CalendarClient(props: CalendarProps) {
 									.filter(
 										(schedule) =>
 											checkTimeGreaterEqualThan(schedule.startTime, time) &&
-											checkGreaterThan(time, schedule.endTime)
+											checkTimeGreaterThan(time, schedule.endTime)
 									)
 									.map((schedule) => (
 										<button
