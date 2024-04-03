@@ -37,8 +37,6 @@ export async function loginAction(formData: FormData) {
 		}
 	}
 
-	await wait(1000)
-
 	await authenticateLogin(existingUser)
 
 	return existingUser
