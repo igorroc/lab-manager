@@ -111,6 +111,33 @@ export default function Form(props: FormProps) {
 					)
 				}
 			}
+			const scheduleByDayAndProfessor = props.schedules.find(
+				(s) =>
+					s.dayOfWeek === dayOfWeek &&
+					s.classGroup.professor.id === selectedClassGroup.professor.id
+			)
+			if (scheduleByDayAndProfessor) {
+				if (
+					checkTimeBetween(
+						startTime,
+						scheduleByDayAndProfessor.startTime,
+						scheduleByDayAndProfessor.endTime
+					) ||
+					checkTimeBetween(
+						endTime,
+						scheduleByDayAndProfessor.startTime,
+						scheduleByDayAndProfessor.endTime
+					) ||
+					startTime === scheduleByDayAndProfessor.startTime ||
+					endTime === scheduleByDayAndProfessor.endTime ||
+					checkTimeBetween(scheduleByDayAndProfessor.startTime, startTime, endTime) ||
+					checkTimeBetween(scheduleByDayAndProfessor.endTime, startTime, endTime)
+				) {
+					errors.push(
+						`Esse professor já está ministrando aula no horário de ${scheduleByDayAndProfessor.startTime} às ${scheduleByDayAndProfessor.endTime} para a turma ${scheduleByDayAndProfessor.classGroup.name} - ${scheduleByDayAndProfessor.classGroup.subject.name}`
+					)
+				}
+			}
 		}
 		if (errors.length > 0) {
 			setErrorMessages(errors)
