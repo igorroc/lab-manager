@@ -23,6 +23,14 @@ export function checkTimeGreaterEqualThan(start: string, end: string) {
 	return endMinutes >= startMinutes
 }
 
+export function checkTimeBetween(time: string, start: string, end: string) {
+	const timeMinutes = parseInt(time.split(":")[0]) * 60 + parseInt(time.split(":")[1])
+	const startMinutes = parseInt(start.split(":")[0]) * 60 + parseInt(start.split(":")[1])
+	const endMinutes = parseInt(end.split(":")[0]) * 60 + parseInt(end.split(":")[1])
+
+	return timeMinutes > startMinutes && timeMinutes < endMinutes
+}
+
 export function createTimeSlots(startTime: string, endTime: string, stepDuration: number) {
 	const slots: string[] = []
 	let currentTime = startTime
