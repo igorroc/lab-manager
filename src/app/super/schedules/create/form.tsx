@@ -59,84 +59,94 @@ export default function Form(props: FormProps) {
 		}
 
 		if (startTime && endTime && dayOfWeek && selectedClassGroup) {
-			const scheduleByDayAndClassGroup = props.schedules.find(
-				(s) => s.dayOfWeek === dayOfWeek && s.classGroupId === selectedClassGroup.id
+			const schedulesByDayAndClassGroup = props.schedules.filter(
+				(s) => s.dayOfWeek === dayOfWeek && s.classGroup.id === selectedClassGroup.id
 			)
-			if (scheduleByDayAndClassGroup) {
-				if (
-					checkTimeBetween(
-						startTime,
-						scheduleByDayAndClassGroup.startTime,
-						scheduleByDayAndClassGroup.endTime
-					) ||
-					checkTimeBetween(
-						endTime,
-						scheduleByDayAndClassGroup.startTime,
-						scheduleByDayAndClassGroup.endTime
-					) ||
-					startTime === scheduleByDayAndClassGroup.startTime ||
-					endTime === scheduleByDayAndClassGroup.endTime ||
-					checkTimeBetween(scheduleByDayAndClassGroup.startTime, startTime, endTime) ||
-					checkTimeBetween(scheduleByDayAndClassGroup.endTime, startTime, endTime)
-				) {
-					errors.push(
-						`Essa turma já está cadastrada no horário de ${scheduleByDayAndClassGroup.startTime} às ${scheduleByDayAndClassGroup.endTime}`
-					)
-				}
+			if (schedulesByDayAndClassGroup.length > 0) {
+				schedulesByDayAndClassGroup.forEach((scheduleByDayAndClassGroup) => {
+					if (
+						checkTimeBetween(
+							startTime,
+							scheduleByDayAndClassGroup.startTime,
+							scheduleByDayAndClassGroup.endTime
+						) ||
+						checkTimeBetween(
+							endTime,
+							scheduleByDayAndClassGroup.startTime,
+							scheduleByDayAndClassGroup.endTime
+						) ||
+						startTime === scheduleByDayAndClassGroup.startTime ||
+						endTime === scheduleByDayAndClassGroup.endTime ||
+						checkTimeBetween(
+							scheduleByDayAndClassGroup.startTime,
+							startTime,
+							endTime
+						) ||
+						checkTimeBetween(scheduleByDayAndClassGroup.endTime, startTime, endTime)
+					) {
+						errors.push(
+							`Essa turma já está cadastrada no horário de ${scheduleByDayAndClassGroup.startTime} às ${scheduleByDayAndClassGroup.endTime}`
+						)
+					}
+				})
 			}
-			const scheduleByDayAndClassroom = props.schedules.find(
+			const schedulesByDayAndClassroom = props.schedules.filter(
 				(s) =>
 					s.dayOfWeek === dayOfWeek &&
 					s.classGroup.classroom.id === selectedClassGroup.classroom.id
 			)
-			if (scheduleByDayAndClassroom) {
-				if (
-					checkTimeBetween(
-						startTime,
-						scheduleByDayAndClassroom.startTime,
-						scheduleByDayAndClassroom.endTime
-					) ||
-					checkTimeBetween(
-						endTime,
-						scheduleByDayAndClassroom.startTime,
-						scheduleByDayAndClassroom.endTime
-					) ||
-					startTime === scheduleByDayAndClassroom.startTime ||
-					endTime === scheduleByDayAndClassroom.endTime ||
-					checkTimeBetween(scheduleByDayAndClassroom.startTime, startTime, endTime) ||
-					checkTimeBetween(scheduleByDayAndClassroom.endTime, startTime, endTime)
-				) {
-					errors.push(
-						`Essa sala já está sendo utilizada no horário de ${scheduleByDayAndClassroom.startTime} às ${scheduleByDayAndClassroom.endTime} pela turma ${scheduleByDayAndClassroom.classGroup.name} - ${scheduleByDayAndClassroom.classGroup.subject.name} - ${scheduleByDayAndClassroom.classGroup.professor.name}`
-					)
-				}
+			if (schedulesByDayAndClassroom.length > 0) {
+				schedulesByDayAndClassroom.forEach((scheduleByDayAndClassroom) => {
+					if (
+						checkTimeBetween(
+							startTime,
+							scheduleByDayAndClassroom.startTime,
+							scheduleByDayAndClassroom.endTime
+						) ||
+						checkTimeBetween(
+							endTime,
+							scheduleByDayAndClassroom.startTime,
+							scheduleByDayAndClassroom.endTime
+						) ||
+						startTime === scheduleByDayAndClassroom.startTime ||
+						endTime === scheduleByDayAndClassroom.endTime ||
+						checkTimeBetween(scheduleByDayAndClassroom.startTime, startTime, endTime) ||
+						checkTimeBetween(scheduleByDayAndClassroom.endTime, startTime, endTime)
+					) {
+						errors.push(
+							`Essa sala já está sendo utilizada no horário de ${scheduleByDayAndClassroom.startTime} às ${scheduleByDayAndClassroom.endTime} pela turma ${scheduleByDayAndClassroom.classGroup.name} - ${scheduleByDayAndClassroom.classGroup.subject.name} - ${scheduleByDayAndClassroom.classGroup.professor.name}`
+						)
+					}
+				})
 			}
-			const scheduleByDayAndProfessor = props.schedules.find(
+			const schedulesByDayAndProfessor = props.schedules.filter(
 				(s) =>
 					s.dayOfWeek === dayOfWeek &&
 					s.classGroup.professor.id === selectedClassGroup.professor.id
 			)
-			if (scheduleByDayAndProfessor) {
-				if (
-					checkTimeBetween(
-						startTime,
-						scheduleByDayAndProfessor.startTime,
-						scheduleByDayAndProfessor.endTime
-					) ||
-					checkTimeBetween(
-						endTime,
-						scheduleByDayAndProfessor.startTime,
-						scheduleByDayAndProfessor.endTime
-					) ||
-					startTime === scheduleByDayAndProfessor.startTime ||
-					endTime === scheduleByDayAndProfessor.endTime ||
-					checkTimeBetween(scheduleByDayAndProfessor.startTime, startTime, endTime) ||
-					checkTimeBetween(scheduleByDayAndProfessor.endTime, startTime, endTime)
-				) {
-					errors.push(
-						`Esse professor já está ministrando aula no horário de ${scheduleByDayAndProfessor.startTime} às ${scheduleByDayAndProfessor.endTime} para a turma ${scheduleByDayAndProfessor.classGroup.name} - ${scheduleByDayAndProfessor.classGroup.subject.name}`
-					)
-				}
+			if (schedulesByDayAndProfessor) {
+				schedulesByDayAndProfessor.forEach((scheduleByDayAndProfessor) => {
+					if (
+						checkTimeBetween(
+							startTime,
+							scheduleByDayAndProfessor.startTime,
+							scheduleByDayAndProfessor.endTime
+						) ||
+						checkTimeBetween(
+							endTime,
+							scheduleByDayAndProfessor.startTime,
+							scheduleByDayAndProfessor.endTime
+						) ||
+						startTime === scheduleByDayAndProfessor.startTime ||
+						endTime === scheduleByDayAndProfessor.endTime ||
+						checkTimeBetween(scheduleByDayAndProfessor.startTime, startTime, endTime) ||
+						checkTimeBetween(scheduleByDayAndProfessor.endTime, startTime, endTime)
+					) {
+						errors.push(
+							`Esse professor já está ministrando aula no horário de ${scheduleByDayAndProfessor.startTime} às ${scheduleByDayAndProfessor.endTime} para a turma ${scheduleByDayAndProfessor.classGroup.name} - ${scheduleByDayAndProfessor.classGroup.subject.name}`
+						)
+					}
+				})
 			}
 		}
 		if (errors.length > 0) {
