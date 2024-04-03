@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Select, SelectItem, useDisclosure } from "@nextui-org/react"
+import { ScrollShadow, Select, SelectItem, useDisclosure } from "@nextui-org/react"
 
 import { ScheduleWithRelations } from "@/actions/schedules/get"
 
@@ -133,29 +133,36 @@ export default function CalendarClient(props: CalendarProps) {
 							<h2 className="font-bold text-lg">{time}</h2>
 						</div>
 						{TWeekDays.map((day) => (
-							<div key={day.id}>
-								{filteredSchedules
-									.filter((schedule) => schedule.dayOfWeek === day.id)
-									.filter(
-										(schedule) =>
-											checkTimeGreaterEqualThan(schedule.startTime, time) &&
-											checkTimeGreaterThan(time, schedule.endTime)
-									)
-									.map((schedule) => (
-										<button
-											key={schedule.id}
-											className="p-2 rounded-full shadow-md my-2 w-40 text-center"
-											style={{
-												backgroundColor: schedule.classGroup.color,
-											}}
-											onClick={() => handleOpen(schedule)}
-										>
-											<p>
-												{schedule.classGroup.subject.code} -{" "}
-												{schedule.classGroup.name}
-											</p>
-										</button>
-									))}
+							<div key={day.id} className="border border-gray-100">
+								<ScrollShadow
+									className="flex flex-col items-center h-32"
+									hideScrollBar
+								>
+									{filteredSchedules
+										.filter((schedule) => schedule.dayOfWeek === day.id)
+										.filter(
+											(schedule) =>
+												checkTimeGreaterEqualThan(
+													schedule.startTime,
+													time
+												) && checkTimeGreaterThan(time, schedule.endTime)
+										)
+										.map((schedule) => (
+											<button
+												key={schedule.id}
+												className="p-2 rounded-full shadow-md my-2 w-40 text-center"
+												style={{
+													backgroundColor: schedule.classGroup.color,
+												}}
+												onClick={() => handleOpen(schedule)}
+											>
+												<p>
+													{schedule.classGroup.subject.code} -{" "}
+													{schedule.classGroup.name}
+												</p>
+											</button>
+										))}
+								</ScrollShadow>
 							</div>
 						))}
 					</div>
