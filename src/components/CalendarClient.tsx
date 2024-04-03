@@ -7,7 +7,7 @@ import { ScheduleWithRelations } from "@/actions/schedules/get"
 
 import { useCalendarFilter } from "@/store/CalendarFilter"
 
-import { TWeekDays } from "@/utils/WeekDay"
+import { TWeekDays, getWeekDates } from "@/utils/WeekDay"
 import { searchInText } from "@/utils/String"
 import { DefaultSemesters } from "@/utils/Semester"
 import {
@@ -30,6 +30,7 @@ export default function CalendarClient(props: CalendarProps) {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 	const [selectedSchedule, setSelectedSchedule] = useState<ScheduleWithRelations | null>(null)
 	const [search, setSearch] = useCalendarFilter((state) => [state.search, state.setSearch])
+	const weekDates = getWeekDates(new Date())
 
 	const mappedProfessors = Array.from(
 		new Set(props.schedules.map((schedule) => schedule.classGroup.professor.id))
@@ -192,9 +193,15 @@ export default function CalendarClient(props: CalendarProps) {
 			>
 				<div className="flex flex-col min-w-[1250px]">
 					<div className="w-full grid grid-cols-5">
-						{TWeekDays.map((day) => (
+						{TWeekDays.map((day, index) => (
 							<div key={day.id}>
 								<h2 className="font-bold text-lg">{day.name}</h2>
+								<p>
+									{new Intl.DateTimeFormat("pt-BR", {
+										day: "2-digit",
+										month: "2-digit",
+									}).format(weekDates[index])}
+								</p>
 							</div>
 						))}
 					</div>

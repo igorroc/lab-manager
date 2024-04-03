@@ -32,3 +32,19 @@ export function mapWeekDayToName(weekDay: WeekDay) {
 
 	return weekDayFound.name
 }
+
+export function getWeekDates(startDate: Date): Date[] {
+	const dates = []
+
+	const startDay = startDate.getDay()
+	const startOfWeek = new Date(startDate)
+	startOfWeek.setDate(startOfWeek.getDate() - startDay + (startDay === 0 ? -6 : 1))
+
+	for (let i = 0; i < 5; i++) {
+		const day = new Date(startOfWeek)
+		day.setDate(day.getDate() + i)
+		dates.push(day)
+	}
+
+	return dates
+}
