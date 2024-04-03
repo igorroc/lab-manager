@@ -17,6 +17,9 @@ type FormProps = {
 export default function Form(props: FormProps) {
 	const router = useRouter()
 	const [loading, setLoading] = useState(false)
+	const [errorMessage, setErrorMessage] = useState("")
+	const [selectedClassroom, setSelectedClassroom] = useState<Classroom | undefined>()
+	const [alumniCount, setAlumniCount] = useState("")
 
 	async function handleSubmit(formData: FormData) {
 		setLoading(true)
@@ -48,6 +51,18 @@ export default function Form(props: FormProps) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.subjects])
 
+	useEffect(() => {
+		if (alumniCount && selectedClassroom) {
+			if (parseInt(alumniCount) > selectedClassroom.capacity) {
+				setErrorMessage(
+					`O laboratório ${selectedClassroom.name} tem capacidade para apenas ${selectedClassroom.capacity} alunos.`
+				)
+			} else {
+				setErrorMessage("")
+			}
+		}
+	}, [alumniCount, selectedClassroom])
+
 	return (
 		<form action={handleSubmit} className="flex flex-col items-center gap-2">
 			<Input
@@ -65,6 +80,8 @@ export default function Form(props: FormProps) {
 				name="alumniCount"
 				type="number"
 				label="Quantidade de vagas"
+				value={alumniCount}
+				onChange={(e) => setAlumniCount(e.target.value)}
 			/>
 			<Input
 				isDisabled={loading}
@@ -97,11 +114,20 @@ export default function Form(props: FormProps) {
 				label="Laboratório"
 				placeholder="Selecione o laboratório"
 				name="classroom"
+				onChange={(e) =>
+					setSelectedClassroom(props.classrooms.find((c) => c.id === e.target.value))
+				}
+				value={selectedClassroom?.id}
 			>
 				{(classroom) => <SelectItem key={classroom.id}>{classroom.name}</SelectItem>}
 			</Select>
+			{errorMessage && (
+				<p className="px-4 py-2 rounded-lg w-full border border-red-600 text-red-600 font-medium">
+					{errorMessage}
+				</p>
+			)}
 			<Button isLoading={loading} color="primary" className="w-full" type="submit">
-				Cadastrar
+				{errorMessage ? "Cadastrar mesmo assim" : "Cadastrar"}
 			</Button>
 		</form>
 	)
