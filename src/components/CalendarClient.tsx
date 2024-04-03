@@ -5,6 +5,8 @@ import { Input, ScrollShadow, Select, SelectItem, useDisclosure } from "@nextui-
 
 import { ScheduleWithRelations } from "@/actions/schedules/get"
 
+import { useCalendarFilter } from "@/store/CalendarFilter"
+
 import { TWeekDays } from "@/utils/WeekDay"
 import { searchInText } from "@/utils/String"
 import { DefaultSemesters } from "@/utils/Semester"
@@ -27,10 +29,7 @@ type CalendarProps = {
 export default function CalendarClient(props: CalendarProps) {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 	const [selectedSchedule, setSelectedSchedule] = useState<ScheduleWithRelations | null>(null)
-	const [selectedSemester, setSelectedSemester] = useState<number[]>([])
-	const [selectedProfessors, setSelectedProfessors] = useState<string[]>([])
-	const [selectedClassrooms, setSelectedClassrooms] = useState<string[]>([])
-	const [subjectSearch, setSubjectSearch] = useState("")
+	const [search, setSearch] = useCalendarFilter((state) => [state.search, state.setSearch])
 
 	const mappedProfessors = Array.from(
 		new Set(props.schedules.map((schedule) => schedule.classGroup.professor.id))
@@ -61,25 +60,25 @@ export default function CalendarClient(props: CalendarProps) {
 		() =>
 			props.schedules.filter((schedule) => {
 				const isSemester =
-					selectedSemester.length === 0 ||
-					selectedSemester.includes(schedule.classGroup.subject.semester)
+					search.selectedSemester.length === 0 ||
+					search.selectedSemester.includes(schedule.classGroup.subject.semester)
 
 				const isProfessor =
-					selectedProfessors.length === 0 ||
-					selectedProfessors.includes(schedule.classGroup.professor.id)
+					search.selectedProfessors.length === 0 ||
+					search.selectedProfessors.includes(schedule.classGroup.professor.id)
 
 				const isClassroom =
-					selectedClassrooms.length === 0 ||
-					selectedClassrooms.includes(schedule.classGroup.classroom.id)
+					search.selectedClassrooms.length === 0 ||
+					search.selectedClassrooms.includes(schedule.classGroup.classroom.id)
 
 				const isSubjectSearch =
-					subjectSearch === "" ||
-					searchInText(schedule.classGroup.subject.name, subjectSearch) ||
-					searchInText(schedule.classGroup.subject.code, subjectSearch)
+					search.subjectSearch === "" ||
+					searchInText(schedule.classGroup.subject.name, search.subjectSearch) ||
+					searchInText(schedule.classGroup.subject.code, search.subjectSearch)
 
 				return isSemester && isProfessor && isClassroom && isSubjectSearch
 			}),
-		[props.schedules, selectedClassrooms, selectedProfessors, selectedSemester, subjectSearch]
+		[props.schedules, search]
 	)
 
 	function handleOpen(schedule: ScheduleWithRelations) {
@@ -107,8 +106,8 @@ export default function CalendarClient(props: CalendarProps) {
 				<div className="flex justify-end gap-2">
 					<Input
 						placeholder="Buscar pela disciplina"
-						onChange={(e) => setSubjectSearch(e.target.value)}
-						value={subjectSearch}
+						onChange={(e) => setSearch("subjectSearch", e.target.value)}
+						value={search.subjectSearch}
 						classNames={{
 							inputWrapper: "h-full",
 						}}
@@ -120,11 +119,12 @@ export default function CalendarClient(props: CalendarProps) {
 						selectionMode="multiple"
 						onChange={(value) => {
 							if (value.target.value) {
-								setSelectedClassrooms(value.target.value.split(","))
+								setSearch("selectedClassrooms", value.target.value.split(","))
 							} else {
-								setSelectedClassrooms([])
+								setSearch("selectedClassrooms", [])
 							}
 						}}
+						selectedKeys={search.selectedClassrooms.map(String)}
 						className="w-52"
 					>
 						{(classroom) =>
@@ -143,11 +143,12 @@ export default function CalendarClient(props: CalendarProps) {
 						selectionMode="multiple"
 						onChange={(value) => {
 							if (value.target.value) {
-								setSelectedProfessors(value.target.value.split(","))
+								setSearch("selectedProfessors", value.target.value.split(","))
 							} else {
-								setSelectedProfessors([])
+								setSearch("selectedProfessors", [])
 							}
 						}}
+						selectedKeys={search.selectedProfessors.map(String)}
 						className="w-52"
 					>
 						{(professor) =>
@@ -166,11 +167,15 @@ export default function CalendarClient(props: CalendarProps) {
 						selectionMode="multiple"
 						onChange={(value) => {
 							if (value.target.value) {
-								setSelectedSemester(value.target.value.split(",").map(Number))
+								setSearch(
+									"selectedSemester",
+									value.target.value.split(",").map(Number)
+								)
 							} else {
-								setSelectedSemester([])
+								setSearch("selectedSemester", [])
 							}
 						}}
+						selectedKeys={search.selectedSemester.map(String)}
 						className="w-52"
 					>
 						{(semester) => (
