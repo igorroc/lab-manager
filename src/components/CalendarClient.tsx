@@ -109,32 +109,47 @@ export default function CalendarClient(props: CalendarProps) {
 					</Select>
 				</div>
 			</div>
-			<div className="w-full flex justify-between">
-				{TWeekDays.map((day) => (
-					<div key={day.id}>
-						<h2>{day.name}</h2>
-						{filteredSchedules
-							.filter((schedule) => schedule.dayOfWeek === day.id)
-							.map((schedule) => (
-								<button
-									key={schedule.id}
-									className="p-2 rounded-full shadow-md my-2 w-40 text-center"
-									style={{
-										backgroundColor: schedule.classGroup.color,
-									}}
-									onClick={() => handleOpen(schedule)}
-								>
-									<p>
-										{schedule.classGroup.subject.code} -{" "}
-										{schedule.classGroup.name}
-									</p>
-								</button>
-							))}
+			<div className="flex flex-col">
+				<div className="w-full grid grid-cols-7">
+					<div></div>
+					{TWeekDays.map((day) => (
+						<div key={day.id}>
+							<h2 className="font-bold text-lg">{day.name}</h2>
+						</div>
+					))}
+				</div>
+				<div className="w-full grid grid-cols-7">
+					<div>
+						{/* <h2 className="font-bold text-lg">aqui vai ficar o horario</h2> */}
 					</div>
-				))}
+					{TWeekDays.map((day) => (
+						<div key={day.id}>
+							{filteredSchedules
+								.filter((schedule) => schedule.dayOfWeek === day.id)
+								.map((schedule) => (
+									<button
+										key={schedule.id}
+										className="p-2 rounded-full shadow-md my-2 w-40 text-center"
+										style={{
+											backgroundColor: schedule.classGroup.color,
+										}}
+										onClick={() => handleOpen(schedule)}
+									>
+										<p>
+											{schedule.classGroup.subject.code} -{" "}
+											{schedule.classGroup.name}
+										</p>
+									</button>
+								))}
+						</div>
+					))}
+				</div>
 			</div>
+
 			{filteredSchedules.length === 0 && (
-				<p className="text-center">Nenhum horário encontrado com o filtro selecionado</p>
+				<p className="my-16 text-center">
+					Nenhum horário encontrado com o filtro selecionado
+				</p>
 			)}
 			<ModalSchedule
 				selectedSchedule={selectedSchedule}
