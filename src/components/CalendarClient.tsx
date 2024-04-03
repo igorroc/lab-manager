@@ -6,12 +6,16 @@ import { Select, SelectItem, useDisclosure } from "@nextui-org/react"
 import { ScheduleWithRelations } from "@/actions/schedules/get"
 
 import { TWeekDays } from "@/utils/WeekDay"
+import { createTimeSlots, checkGreaterThan, checkTimeGreaterEqualThan } from "@/utils/Date"
 import { DefaultSemesters } from "@/utils/Semester"
 
 import ModalSchedule from "./ModalSchedule"
 
 type CalendarProps = {
 	schedules: ScheduleWithRelations[]
+	startOfDay: string
+	endOfDay: string
+	classDuration: string
 }
 
 export default function CalendarClient(props: CalendarProps) {
@@ -23,6 +27,11 @@ export default function CalendarClient(props: CalendarProps) {
 
 	const mappedProfessors = props.schedules.map((schedule) => schedule.classGroup.professor)
 	const mappedClassrooms = props.schedules.map((schedule) => schedule.classGroup.classroom)
+	const mappedTimeSlots = createTimeSlots(
+		props.startOfDay,
+		props.endOfDay,
+		Number(props.classDuration)
+	)
 
 	const filteredSchedules = props.schedules.filter((schedule) => {
 		const isSemester =
@@ -118,32 +127,39 @@ export default function CalendarClient(props: CalendarProps) {
 						</div>
 					))}
 				</div>
-				<div className="w-full grid grid-cols-7">
-					<div>
-						{/* <h2 className="font-bold text-lg">aqui vai ficar o horario</h2> */}
-					</div>
-					{TWeekDays.map((day) => (
-						<div key={day.id}>
-							{filteredSchedules
-								.filter((schedule) => schedule.dayOfWeek === day.id)
-								.map((schedule) => (
-									<button
-										key={schedule.id}
-										className="p-2 rounded-full shadow-md my-2 w-40 text-center"
-										style={{
-											backgroundColor: schedule.classGroup.color,
-										}}
-										onClick={() => handleOpen(schedule)}
-									>
-										<p>
-											{schedule.classGroup.subject.code} -{" "}
-											{schedule.classGroup.name}
-										</p>
-									</button>
-								))}
+				{mappedTimeSlots.map((time) => (
+					<div className="w-full grid grid-cols-7" key={time}>
+						<div className="flex items-center justify-end p-2">
+							<h2 className="font-bold text-lg">{time}</h2>
 						</div>
-					))}
-				</div>
+						{TWeekDays.map((day) => (
+							<div key={day.id}>
+								{filteredSchedules
+									.filter((schedule) => schedule.dayOfWeek === day.id)
+									.filter(
+										(schedule) =>
+											checkTimeGreaterEqualThan(schedule.startTime, time) &&
+											checkGreaterThan(time, schedule.endTime)
+									)
+									.map((schedule) => (
+										<button
+											key={schedule.id}
+											className="p-2 rounded-full shadow-md my-2 w-40 text-center"
+											style={{
+												backgroundColor: schedule.classGroup.color,
+											}}
+											onClick={() => handleOpen(schedule)}
+										>
+											<p>
+												{schedule.classGroup.subject.code} -{" "}
+												{schedule.classGroup.name}
+											</p>
+										</button>
+									))}
+							</div>
+						))}
+					</div>
+				))}
 			</div>
 
 			{filteredSchedules.length === 0 && (

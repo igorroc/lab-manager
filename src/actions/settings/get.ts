@@ -10,7 +10,9 @@ export async function getAllSettings() {
 	return settings
 }
 
-export async function getSetting(key: string, defaultValue: string = "") {
+export async function getSetting(key: string): Promise<string | null>
+export async function getSetting(key: string, defaultValue: string): Promise<string>
+export async function getSetting(key: string, defaultValue: string = ""): Promise<string | null> {
 	const setting = await db.setting.findUnique({
 		where: {
 			key,
