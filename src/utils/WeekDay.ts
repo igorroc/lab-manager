@@ -3,23 +3,23 @@ import { WeekDay } from "@prisma/client"
 export const TWeekDays = [
 	{
 		id: WeekDay.MONDAY,
-		name: "Segunda-feira",
+		name: "Segunda",
 	},
 	{
 		id: WeekDay.TUESDAY,
-		name: "Terça-feira",
+		name: "Terça",
 	},
 	{
 		id: WeekDay.WEDNESDAY,
-		name: "Quarta-feira",
+		name: "Quarta",
 	},
 	{
 		id: WeekDay.THURSDAY,
-		name: "Quinta-feira",
+		name: "Quinta",
 	},
 	{
 		id: WeekDay.FRIDAY,
-		name: "Sexta-feira",
+		name: "Sexta",
 	},
 ] as const
 
