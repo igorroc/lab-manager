@@ -6,15 +6,20 @@ import { ScrollShadow, Select, SelectItem, useDisclosure } from "@nextui-org/rea
 import { ScheduleWithRelations } from "@/actions/schedules/get"
 
 import { TWeekDays } from "@/utils/WeekDay"
-import { createTimeSlots, checkTimeGreaterThan, checkTimeGreaterEqualThan } from "@/utils/Date"
 import { DefaultSemesters } from "@/utils/Semester"
+import {
+	createTimeSlots,
+	checkTimeGreaterThan,
+	checkTimeGreaterEqualThan,
+	TPeriod,
+	addMinutes,
+} from "@/utils/Date"
 
 import ModalSchedule from "./ModalSchedule"
 
 type CalendarProps = {
 	schedules: ScheduleWithRelations[]
-	startOfDay: string
-	endOfDay: string
+	periods: TPeriod[]
 	classDuration: string
 }
 
@@ -41,13 +46,13 @@ export default function CalendarClient(props: CalendarProps) {
 				.classroom
 	)
 
-	const mappedTimeSlots = createTimeSlots(
-		props.startOfDay,
-		props.endOfDay,
-		Number(props.classDuration)
-	)
-	const [collapsedTimeSlots, setCollapsedTimeSlots] = useState<boolean[]>(
-		Array(mappedTimeSlots.length).fill(false)
+	const mappedTimeSlots = props.periods.map((period) => {
+		const timeSlots = createTimeSlots(period.start, period.end, Number(props.classDuration))
+
+		return timeSlots
+	})
+	const [collapsedTimeSlots, setCollapsedTimeSlots] = useState<boolean[][]>(
+		mappedTimeSlots.map((period) => Array(period.length).fill(false))
 	)
 
 	const filteredSchedules = props.schedules.filter((schedule) => {
@@ -72,9 +77,11 @@ export default function CalendarClient(props: CalendarProps) {
 	}
 
 	useEffect(() => {
-		const newCollapsedTimeSlots = mappedTimeSlots.map((time) => {
-			return !filteredSchedules.some((schedule) => {
-				return schedule.startTime <= time && schedule.endTime > time
+		const newCollapsedTimeSlots = mappedTimeSlots.map((period) => {
+			return period.map((time) => {
+				return !filteredSchedules.some((schedule) => {
+					return schedule.startTime <= time && schedule.endTime > time
+				})
 			})
 		})
 		setCollapsedTimeSlots(newCollapsedTimeSlots)
@@ -161,47 +168,68 @@ export default function CalendarClient(props: CalendarProps) {
 						</div>
 					))}
 				</div>
-				{mappedTimeSlots.map((time, index) => (
-					<div className="w-full grid grid-cols-7" key={time}>
-						<div className="flex items-center justify-end p-2">
-							<h2 className="font-bold text-lg">{time}</h2>
-						</div>
-						{TWeekDays.map((day) => (
-							<div key={day.id} className="border border-gray-100">
-								<ScrollShadow
-									className={`flex flex-col items-center transition-all py-4 ${
-										collapsedTimeSlots[index] ? "h-2" : "h-32"
-									}`}
-									hideScrollBar
-								>
-									{filteredSchedules
-										.filter((schedule) => schedule.dayOfWeek === day.id)
-										.filter(
-											(schedule) =>
-												checkTimeGreaterEqualThan(
-													schedule.startTime,
-													time
-												) && checkTimeGreaterThan(time, schedule.endTime)
-										)
-										.map((schedule) => (
-											<button
-												key={schedule.id}
-												className="p-2 rounded-full shadow-md my-2 w-40 text-center"
-												style={{
-													backgroundColor: schedule.classGroup.color,
-												}}
-												onClick={() => handleOpen(schedule)}
+				{mappedTimeSlots.map((period, index_period) => (
+					<>
+						<div className="h-8 first-of-type:h-0">{/* espaço vazio */}</div>
+						{period.map((time, index) => {
+							return (
+								<div className="w-full grid grid-cols-7" key={time}>
+									<div className="flex flex-col items-end justify-between p-2">
+										<h2 className="font-bold text-lg">{time}</h2>
+										{!collapsedTimeSlots[index_period][index] && (
+											<h2 className="font-bold text-lg">
+												{addMinutes(time, Number(props.classDuration))}
+											</h2>
+										)}
+									</div>
+									{TWeekDays.map((day) => (
+										<div key={day.id} className="border border-gray-100">
+											<ScrollShadow
+												className={`flex flex-col items-center transition-all py-4 ${
+													collapsedTimeSlots[index_period][index]
+														? "h-2"
+														: "h-32"
+												}`}
+												hideScrollBar
 											>
-												<p>
-													{schedule.classGroup.subject.code} -{" "}
-													{schedule.classGroup.name}
-												</p>
-											</button>
-										))}
-								</ScrollShadow>
-							</div>
-						))}
-					</div>
+												{filteredSchedules
+													.filter(
+														(schedule) => schedule.dayOfWeek === day.id
+													)
+													.filter(
+														(schedule) =>
+															checkTimeGreaterEqualThan(
+																schedule.startTime,
+																time
+															) &&
+															checkTimeGreaterThan(
+																time,
+																schedule.endTime
+															)
+													)
+													.map((schedule) => (
+														<button
+															key={schedule.id}
+															className="p-2 rounded-full shadow-md my-2 w-40 text-center"
+															style={{
+																backgroundColor:
+																	schedule.classGroup.color,
+															}}
+															onClick={() => handleOpen(schedule)}
+														>
+															<p>
+																{schedule.classGroup.subject.code} -{" "}
+																{schedule.classGroup.name}
+															</p>
+														</button>
+													))}
+											</ScrollShadow>
+										</div>
+									))}
+								</div>
+							)
+						})}
+					</>
 				))}
 			</div>
 
