@@ -1,5 +1,7 @@
 import Form from "./form"
 
+export const revalidate = 1
+
 export default function CreateSubject() {
 	return (
 		<div>

@@ -8,6 +8,8 @@ type EditProps = {
 	}
 }
 
+export const revalidate = 1
+
 export default async function EditProfessor(props: EditProps) {
 	const professor = await getProfessorById(props.params.id)
 

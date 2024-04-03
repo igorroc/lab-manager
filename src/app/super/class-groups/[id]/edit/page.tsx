@@ -10,6 +10,7 @@ type EditProps = {
 		id: string
 	}
 }
+export const revalidate = 1
 
 export default async function EditClassGroup(props: EditProps) {
 	const professors = await getAllProfessors()

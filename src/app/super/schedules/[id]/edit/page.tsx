@@ -9,6 +9,8 @@ type EditProps = {
 	}
 }
 
+export const revalidate = 1
+
 export default async function EditSchedule(props: EditProps) {
 	const classGroups = await getAllClassGroups()
 	const schedule = await getScheduleById(props.params.id)
