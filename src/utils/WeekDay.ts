@@ -21,10 +21,6 @@ export const TWeekDays = [
 		id: WeekDay.FRIDAY,
 		name: "Sexta-feira",
 	},
-	{
-		id: WeekDay.SATURDAY,
-		name: "Sábado",
-	},
 ] as const
 
 export function mapWeekDayToName(weekDay: WeekDay) {
