@@ -25,8 +25,22 @@ export default function CalendarClient(props: CalendarProps) {
 	const [selectedProfessors, setSelectedProfessors] = useState<string[]>([])
 	const [selectedClassrooms, setSelectedClassrooms] = useState<string[]>([])
 
-	const mappedProfessors = props.schedules.map((schedule) => schedule.classGroup.professor)
-	const mappedClassrooms = props.schedules.map((schedule) => schedule.classGroup.classroom)
+	const mappedProfessors = Array.from(
+		new Set(props.schedules.map((schedule) => schedule.classGroup.professor.id))
+	).map(
+		(id) =>
+			props.schedules.find((schedule) => schedule.classGroup.professor.id === id)?.classGroup
+				.professor
+	)
+
+	const mappedClassrooms = Array.from(
+		new Set(props.schedules.map((schedule) => schedule.classGroup.classroom.id))
+	).map(
+		(id) =>
+			props.schedules.find((schedule) => schedule.classGroup.classroom.id === id)?.classGroup
+				.classroom
+	)
+
 	const mappedTimeSlots = createTimeSlots(
 		props.startOfDay,
 		props.endOfDay,
@@ -84,11 +98,15 @@ export default function CalendarClient(props: CalendarProps) {
 						}}
 						className="w-52"
 					>
-						{(classroom) => (
-							<SelectItem key={classroom.id} value={classroom.id}>
-								{classroom.name}
-							</SelectItem>
-						)}
+						{(classroom) =>
+							!classroom ? (
+								<> </>
+							) : (
+								<SelectItem key={classroom.id} value={classroom.id}>
+									{classroom.name}
+								</SelectItem>
+							)
+						}
 					</Select>
 					<Select
 						items={mappedProfessors}
@@ -103,11 +121,15 @@ export default function CalendarClient(props: CalendarProps) {
 						}}
 						className="w-52"
 					>
-						{(professor) => (
-							<SelectItem key={professor.id} value={professor.id}>
-								{professor.name}
-							</SelectItem>
-						)}
+						{(professor) =>
+							!professor ? (
+								<></>
+							) : (
+								<SelectItem key={professor.id} value={professor.id}>
+									{professor.name}
+								</SelectItem>
+							)
+						}
 					</Select>
 					<Select
 						items={DefaultSemesters}
