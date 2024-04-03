@@ -7,6 +7,8 @@ import { getAllClassGroups } from "@/actions/class-groups/get"
 
 import ClassGroupsTable from "./table"
 
+export const revalidate = 10
+
 export default async function ViewSubjects() {
 	const classGroups = await getAllClassGroups()
 

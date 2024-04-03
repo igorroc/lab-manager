@@ -1,5 +1,7 @@
 import Calendar from "@/components/Calendar"
 
+export const revalidate = 10
+
 export default function SuperDashboard() {
 	return (
 		<div>

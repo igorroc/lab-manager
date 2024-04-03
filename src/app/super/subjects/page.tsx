@@ -1,8 +1,13 @@
-import { getAllSubjects } from "@/actions/subjects/get"
-import { Button } from "@nextui-org/react"
 import Link from "next/link"
+import { Button } from "@nextui-org/react"
+
 import { FaPlus } from "react-icons/fa"
+
+import { getAllSubjects } from "@/actions/subjects/get"
+
 import SubjectsTable from "./table"
+
+export const revalidate = 10
 
 export default async function ViewSubjects() {
 	const subjects = await getAllSubjects()

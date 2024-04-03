@@ -7,6 +7,8 @@ import { getAllProfessors } from "@/actions/professors/get"
 
 import ProfessorsTable from "./table"
 
+export const revalidate = 10
+
 export default async function ViewProfessors() {
 	const professors = await getAllProfessors()
 

@@ -7,6 +7,8 @@ import { getAllSchedules } from "@/actions/schedules/get"
 
 import SchedulesTable from "./table"
 
+export const revalidate = 10
+
 export default async function ViewSubjects() {
 	const schedules = await getAllSchedules()
 
