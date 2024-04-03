@@ -27,7 +27,7 @@ export default function Form(props: FormProps) {
 	}
 
 	return (
-		<form action={handleSubmit}>
+		<form action={handleSubmit} className="flex flex-col gap-2">
 			{props.fields.map((field) => (
 				<Input
 					key={field.name}

@@ -2,8 +2,6 @@ import { getSetting } from "@/actions/settings/get"
 import Form from "./form"
 
 export default async function Settings() {
-	const startOfDay = await getSetting("startOfDay", "07:30")
-	const endOfDay = await getSetting("endOfDay", "18:30")
 	const classDuration = await getSetting("classDuration", "50")
 
 	return (
@@ -12,16 +10,28 @@ export default async function Settings() {
 			<Form
 				fields={[
 					{
-						name: "startOfDay",
-						label: "Início do dia",
+						name: "morningStart",
+						label: "Início da manhã",
 						type: "time",
-						value: startOfDay,
+						value: await getSetting("morningStart", "07:30"),
 					},
 					{
-						name: "endOfDay",
-						label: "Fim do dia",
+						name: "morningEnd",
+						label: "Fim da manhã",
 						type: "time",
-						value: endOfDay,
+						value: await getSetting("morningEnd", "12:30"),
+					},
+					{
+						name: "afternoonStart",
+						label: "Início da tarde",
+						type: "time",
+						value: await getSetting("afternoonStart", "13:30"),
+					},
+					{
+						name: "afternoonEnd",
+						label: "Fim da tarde",
+						type: "time",
+						value: await getSetting("afternoonEnd", "18:30"),
 					},
 					{
 						name: "classDuration",
