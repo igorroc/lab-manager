@@ -101,18 +101,8 @@ export default function CalendarClient(props: CalendarProps) {
 
 	return (
 		<>
-			<div className="flex justify-between items-center mb-8">
-				<h1 className="font-bold text-xl">Calendário</h1>
-				<div className="flex justify-end gap-2">
-					<Input
-						placeholder="Buscar pela disciplina"
-						onChange={(e) => setSearch("subjectSearch", e.target.value)}
-						value={search.subjectSearch}
-						classNames={{
-							inputWrapper: "h-full",
-						}}
-						className="w-52"
-					/>
+			<div className="flex flex-col gap-2 justify-center items-center mx-auto mb-8 max-w-[875px]">
+				<div className="flex flex-wrap gap-2 w-full">
 					<Select
 						items={mappedClassrooms}
 						label="Laboratório"
@@ -125,7 +115,7 @@ export default function CalendarClient(props: CalendarProps) {
 							}
 						}}
 						selectedKeys={search.selectedClassrooms.map(String)}
-						className="w-52"
+						className="flex-1 min-w-52"
 					>
 						{(classroom) =>
 							!classroom ? (
@@ -149,7 +139,7 @@ export default function CalendarClient(props: CalendarProps) {
 							}
 						}}
 						selectedKeys={search.selectedProfessors.map(String)}
-						className="w-52"
+						className="flex-1 min-w-52"
 					>
 						{(professor) =>
 							!professor ? (
@@ -176,7 +166,7 @@ export default function CalendarClient(props: CalendarProps) {
 							}
 						}}
 						selectedKeys={search.selectedSemester.map(String)}
-						className="w-52"
+						className="flex-1 min-w-52"
 					>
 						{(semester) => (
 							<SelectItem key={semester.id} value={semester.id}>
@@ -185,6 +175,15 @@ export default function CalendarClient(props: CalendarProps) {
 						)}
 					</Select>
 				</div>
+				<Input
+					placeholder="Buscar pela disciplina"
+					onChange={(e) => setSearch("subjectSearch", e.target.value)}
+					value={search.subjectSearch}
+					classNames={{
+						inputWrapper: "h-full py-4",
+					}}
+					className="w-full"
+				/>
 			</div>
 			<div className="flex flex-col">
 				<div className="w-full grid grid-cols-7">
