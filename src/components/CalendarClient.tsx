@@ -169,7 +169,7 @@ export default function CalendarClient(props: CalendarProps) {
 					))}
 				</div>
 				{mappedTimeSlots.map((period, index_period) => (
-					<>
+					<div key={index_period}>
 						<div className="h-8 first-of-type:h-0">{/* espaço vazio */}</div>
 						{period.map((time, index) => {
 							return (
@@ -229,7 +229,7 @@ export default function CalendarClient(props: CalendarProps) {
 								</div>
 							)
 						})}
-					</>
+					</div>
 				))}
 			</div>
 
