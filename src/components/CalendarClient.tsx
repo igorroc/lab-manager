@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ScrollShadow, Select, SelectItem, useDisclosure } from "@nextui-org/react"
 
 import { ScheduleWithRelations } from "@/actions/schedules/get"
@@ -32,6 +32,9 @@ export default function CalendarClient(props: CalendarProps) {
 		props.endOfDay,
 		Number(props.classDuration)
 	)
+	const [collapsedTimeSlots, setCollapsedTimeSlots] = useState<boolean[]>(
+		Array(mappedTimeSlots.length).fill(false)
+	)
 
 	const filteredSchedules = props.schedules.filter((schedule) => {
 		const isSemester =
@@ -53,6 +56,15 @@ export default function CalendarClient(props: CalendarProps) {
 		setSelectedSchedule(schedule)
 		onOpen()
 	}
+
+	useEffect(() => {
+		const newCollapsedTimeSlots = mappedTimeSlots.map((time) => {
+			return !filteredSchedules.some((schedule) => {
+				return schedule.startTime <= time && schedule.endTime > time
+			})
+		})
+		setCollapsedTimeSlots(newCollapsedTimeSlots)
+	}, [mappedTimeSlots, filteredSchedules])
 
 	return (
 		<>
@@ -127,7 +139,7 @@ export default function CalendarClient(props: CalendarProps) {
 						</div>
 					))}
 				</div>
-				{mappedTimeSlots.map((time) => (
+				{mappedTimeSlots.map((time, index) => (
 					<div className="w-full grid grid-cols-7" key={time}>
 						<div className="flex items-center justify-end p-2">
 							<h2 className="font-bold text-lg">{time}</h2>
@@ -135,7 +147,9 @@ export default function CalendarClient(props: CalendarProps) {
 						{TWeekDays.map((day) => (
 							<div key={day.id} className="border border-gray-100">
 								<ScrollShadow
-									className="flex flex-col items-center h-32"
+									className={`flex flex-col items-center transition-all py-4 ${
+										collapsedTimeSlots[index] ? "h-2" : "h-32"
+									}`}
 									hideScrollBar
 								>
 									{filteredSchedules
@@ -169,11 +183,6 @@ export default function CalendarClient(props: CalendarProps) {
 				))}
 			</div>
 
-			{filteredSchedules.length === 0 && (
-				<p className="my-16 text-center">
-					Nenhum horário encontrado com o filtro selecionado
-				</p>
-			)}
 			<ModalSchedule
 				selectedSchedule={selectedSchedule}
 				isOpen={isOpen}
