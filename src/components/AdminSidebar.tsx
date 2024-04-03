@@ -55,7 +55,7 @@ export default function AdminSidebar() {
 	}
 
 	return (
-		<aside className="fixed w-64 bg-slate-800 h-dvh">
+		<aside className="fixed w-64 bg-content1 h-dvh">
 			<div className="h-full flex flex-col justify-between">
 				<div className="flex flex-col gap-2">
 					<div className="flex items-center justify-center py-4">
@@ -66,9 +66,9 @@ export default function AdminSidebar() {
 							<Link
 								key={route.href}
 								href={route.href}
-								className={`p-2 hover:bg-slate-700 rounded-md transition-all flex gap-2 items-center ${
+								className={`p-2 hover:bg-gray-600 rounded-md transition-all flex gap-2 items-center ${
 									checkCurrentRoute(route.href)
-										? "bg-slate-700 text-white opacity-100"
+										? "bg-primary text-white opacity-100 hover:bg-primary"
 										: "opacity-40"
 								}`}
 							>
