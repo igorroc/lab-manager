@@ -185,7 +185,11 @@ export default function CalendarClient(props: CalendarProps) {
 					className="w-full"
 				/>
 			</div>
-			<ScrollShadow className="w-full max-w-[1300px] mx-auto" orientation="horizontal">
+			<ScrollShadow
+				className="w-full max-w-[1300px] mx-auto"
+				orientation="horizontal"
+				hideScrollBar
+			>
 				<div className="flex flex-col min-w-[1250px]">
 					<div className="w-full grid grid-cols-5">
 						{TWeekDays.map((day) => (
@@ -199,12 +203,12 @@ export default function CalendarClient(props: CalendarProps) {
 							<div className="h-8 first-of-type:h-0">{/* espaço vazio */}</div>
 							{period.map((time, index) => {
 								return (
-									<div className="w-full grid grid-cols-5 relative" key={time}>
+									<div key={time}>
 										<div
-											className={`flex flex-col p-2 absolute h-full ${
+											className={`flex flex-col p-2 left-8 absolute ${
 												!collapsedTimeSlots[index_period][index]
-													? "justify-between"
-													: "justify-center"
+													? "justify-between h-32"
+													: "justify-center h-2 py-4"
 											}`}
 										>
 											<h2 className="z-10">{time}</h2>
@@ -214,54 +218,62 @@ export default function CalendarClient(props: CalendarProps) {
 												</h2>
 											)}
 										</div>
-										{TWeekDays.map((day) => (
-											<div key={day.id} className="border border-gray-100">
-												<ScrollShadow
-													className={`flex flex-col items-center transition-all py-4 ${
-														collapsedTimeSlots[index_period][index]
-															? "h-2"
-															: "h-32"
-													}`}
-													hideScrollBar
+										<div className="w-full grid grid-cols-5 relative overflow-auto">
+											{TWeekDays.map((day) => (
+												<div
+													key={day.id}
+													className="border border-gray-100"
 												>
-													{filteredSchedules
-														.filter(
-															(schedule) =>
-																schedule.dayOfWeek === day.id
-														)
-														.filter(
-															(schedule) =>
-																checkTimeGreaterEqualThan(
-																	schedule.startTime,
-																	time
-																) &&
-																checkTimeGreaterThan(
-																	time,
-																	schedule.endTime
-																)
-														)
-														.map((schedule) => (
-															<button
-																key={schedule.id}
-																className="p-2 rounded-full shadow-md my-2 w-40 text-center"
-																style={{
-																	backgroundColor:
-																		schedule.classGroup.color,
-																}}
-																onClick={() => handleOpen(schedule)}
-															>
-																<p>
-																	{
-																		schedule.classGroup.subject
-																			.code
-																	}{" "}
-																	- {schedule.classGroup.name}
-																</p>
-															</button>
-														))}
-												</ScrollShadow>
-											</div>
-										))}
+													<ScrollShadow
+														className={`flex flex-col items-center transition-all py-4 ${
+															collapsedTimeSlots[index_period][index]
+																? "h-2"
+																: "h-32"
+														}`}
+														hideScrollBar
+													>
+														{filteredSchedules
+															.filter(
+																(schedule) =>
+																	schedule.dayOfWeek === day.id
+															)
+															.filter(
+																(schedule) =>
+																	checkTimeGreaterEqualThan(
+																		schedule.startTime,
+																		time
+																	) &&
+																	checkTimeGreaterThan(
+																		time,
+																		schedule.endTime
+																	)
+															)
+															.map((schedule) => (
+																<button
+																	key={schedule.id}
+																	className="p-2 rounded-full shadow-md my-2 w-40 text-center"
+																	style={{
+																		backgroundColor:
+																			schedule.classGroup
+																				.color,
+																	}}
+																	onClick={() =>
+																		handleOpen(schedule)
+																	}
+																>
+																	<p>
+																		{
+																			schedule.classGroup
+																				.subject.code
+																		}{" "}
+																		- {schedule.classGroup.name}
+																	</p>
+																</button>
+															))}
+													</ScrollShadow>
+												</div>
+											))}
+										</div>
 									</div>
 								)
 							})}
