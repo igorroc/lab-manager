@@ -6,6 +6,7 @@ import { Input, ScrollShadow, Select, SelectItem, useDisclosure } from "@nextui-
 import { ScheduleWithRelations } from "@/actions/schedules/get"
 
 import { TWeekDays } from "@/utils/WeekDay"
+import { searchInText } from "@/utils/String"
 import { DefaultSemesters } from "@/utils/Semester"
 import {
 	createTimeSlots,
@@ -73,12 +74,8 @@ export default function CalendarClient(props: CalendarProps) {
 
 				const isSubjectSearch =
 					subjectSearch === "" ||
-					schedule.classGroup.subject.name
-						.toLowerCase()
-						.includes(subjectSearch.toLowerCase()) ||
-					schedule.classGroup.subject.code
-						.toLowerCase()
-						.includes(subjectSearch.toLowerCase())
+					searchInText(schedule.classGroup.subject.name, subjectSearch) ||
+					searchInText(schedule.classGroup.subject.code, subjectSearch)
 
 				return isSemester && isProfessor && isClassroom && isSubjectSearch
 			}),
@@ -109,7 +106,7 @@ export default function CalendarClient(props: CalendarProps) {
 				<h1 className="font-bold text-xl">Calendário</h1>
 				<div className="flex justify-end gap-2">
 					<Input
-						placeholder="Buscar pelo nome da disciplina ou pelo código"
+						placeholder="Buscar pela disciplina"
 						onChange={(e) => setSubjectSearch(e.target.value)}
 						value={subjectSearch}
 						classNames={{
