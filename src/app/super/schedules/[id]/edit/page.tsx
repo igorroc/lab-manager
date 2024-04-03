@@ -1,4 +1,4 @@
-import { getScheduleById } from "@/actions/schedules/get"
+import { getAllSchedules, getScheduleById } from "@/actions/schedules/get"
 import { getAllClassGroups } from "@/actions/class-groups/get"
 
 import Form from "./form"
@@ -12,6 +12,8 @@ type EditProps = {
 export default async function EditSchedule(props: EditProps) {
 	const classGroups = await getAllClassGroups()
 	const schedule = await getScheduleById(props.params.id)
+	const schedules = await getAllSchedules()
+
 
 	if (!schedule) {
 		return <div>Horário não encontrado</div>
@@ -20,7 +22,7 @@ export default async function EditSchedule(props: EditProps) {
 	return (
 		<div>
 			<h1>Editar Horário</h1>
-			<Form classGroups={classGroups} schedule={schedule} />
+			<Form classGroups={classGroups} schedule={schedule} schedules={schedules} />
 		</div>
 	)
 }
