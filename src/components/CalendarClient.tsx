@@ -205,7 +205,7 @@ export default function CalendarClient(props: CalendarProps) {
 								return (
 									<div key={time}>
 										<div
-											className={`flex flex-col p-2 left-8 absolute ${
+											className={`flex flex-col p-2 left-8 md:left-24 absolute ${
 												!collapsedTimeSlots[index_period][index]
 													? "justify-between h-32"
 													: "justify-center h-2 py-4"
