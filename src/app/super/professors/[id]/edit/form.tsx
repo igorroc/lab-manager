@@ -62,13 +62,6 @@ export default function Form(props: FormProps) {
 				label="Observações"
 				defaultValue={props.professor.observation || ""}
 			/>
-			<Input
-				isDisabled={loading}
-				name="color"
-				type="color"
-				label="Cor"
-				defaultValue={props.professor.color}
-			/>
 			<Button isLoading={loading} color="primary" className="w-full" type="submit">
 				Editar
 			</Button>

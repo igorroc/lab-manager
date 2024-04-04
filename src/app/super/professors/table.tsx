@@ -33,7 +33,6 @@ export default function ProfessorsTable(props: OrderProps) {
 	}, [page, props.professors])
 
 	const columns = [
-		{ key: "color", label: "Cor" },
 		{ key: "name", label: "Nome" },
 		{ key: "email", label: "Email" },
 		{ key: "phone", label: "Telefone" },
@@ -56,10 +55,6 @@ export default function ProfessorsTable(props: OrderProps) {
 					</Tooltip>
 				</div>
 			)
-		}
-
-		if (columnKey === "color") {
-			return <div className="w-4 h-4 rounded-full" style={{ backgroundColor: item.color }} />
 		}
 
 		return value

@@ -31,13 +31,6 @@ export default function Form() {
 			<Input isRequired isDisabled={loading} name="email" type="email" label="Email" />
 			<Input isDisabled={loading} name="phone" type="tel" label="Telefone" />
 			<Textarea isDisabled={loading} name="observation" label="Observações" />
-			<Input
-				isDisabled={loading}
-				name="color"
-				type="color"
-				label="Cor"
-				defaultValue="#ef531c"
-			/>
 			<Button isLoading={loading} color="primary" className="w-full" type="submit">
 				Cadastrar
 			</Button>
