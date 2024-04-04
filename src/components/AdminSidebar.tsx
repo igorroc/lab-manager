@@ -3,14 +3,17 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-import { FaBook, FaChalkboardTeacher, FaClock, FaCog, FaHome } from "react-icons/fa"
-import { FaPeopleGroup } from "react-icons/fa6"
 import { MdMeetingRoom } from "react-icons/md"
+import { FaPeopleGroup } from "react-icons/fa6"
+import { FaBook, FaChalkboardTeacher, FaClock, FaCog, FaHome } from "react-icons/fa"
+
+import { useSidebarOpen } from "@/store/SidebarOpen"
 
 import LogoutButton from "./LogoutButton"
 
 export default function AdminSidebar() {
 	const pathname = usePathname()
+	const [sidebarOpen, toggleSidebarOpen] = useSidebarOpen((state) => [state.open, state.toggle])
 
 	const routes = [
 		{
@@ -55,7 +58,13 @@ export default function AdminSidebar() {
 	}
 
 	return (
-		<aside className="fixed w-64 bg-content1 h-dvh">
+		<aside
+			className={`fixed z-50 w-64 bg-content1 h-dvh transition-all ${
+				sidebarOpen
+					? "translate-x-0 shadow-lg"
+					: "-translate-x-full md:-translate-x-0 md:shadow-lg"
+			}`}
+		>
 			<div className="h-full flex flex-col justify-between">
 				<div className="flex flex-col gap-2">
 					<div className="flex items-center justify-center py-4">

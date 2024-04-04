@@ -1,3 +1,4 @@
+import AdminContent from "@/components/AdminContent"
 import AdminSidebar from "@/components/AdminSidebar"
 
 export default function AdminLayout({
@@ -8,7 +9,7 @@ export default function AdminLayout({
 	return (
 		<div>
 			<AdminSidebar />
-			<main className="ml-64 p-14">{children}</main>
+			<AdminContent>{children}</AdminContent>
 		</div>
 	)
 }
