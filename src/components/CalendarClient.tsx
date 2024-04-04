@@ -87,6 +87,13 @@ export default function CalendarClient(props: CalendarProps) {
 		onOpen()
 	}
 
+	function clearFilter() {
+		setSearch("selectedClassrooms", [])
+		setSearch("selectedProfessors", [])
+		setSearch("selectedSemester", [])
+		setSearch("subjectSearch", "")
+	}
+
 	useEffect(() => {
 		const newCollapsedTimeSlots = mappedTimeSlots.map((period) => {
 			return period.map((time) => {
@@ -185,7 +192,19 @@ export default function CalendarClient(props: CalendarProps) {
 					}}
 					className="w-full"
 				/>
+				{(search.subjectSearch ||
+					search.selectedClassrooms.length > 0 ||
+					search.selectedProfessors.length > 0 ||
+					search.selectedSemester.length > 0) && (
+					<button
+						className="opacity-50 underline font-light text-sm my-2 cursor-pointer"
+						onClick={clearFilter}
+					>
+						Limpar Filtros
+					</button>
+				)}
 			</div>
+
 			<ScrollShadow
 				className="w-full max-w-[1300px] mx-auto"
 				orientation="horizontal"
