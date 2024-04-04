@@ -1,14 +1,15 @@
-import { getAllProfessors } from "@/actions/professors/get"
-import Form from "./form"
 import { getAllSubjects } from "@/actions/subjects/get"
-import { getAllClassrooms } from "@/actions/classrooms/get"
+import { getAllProfessors } from "@/actions/professors/get"
+import { getAllAvailableClassrooms } from "@/actions/classrooms/get"
+
+import Form from "./form"
 
 export const revalidate = 1
 
 export default async function CreateClassGroup() {
 	const professors = await getAllProfessors()
 	const subjects = await getAllSubjects()
-	const classrooms = await getAllClassrooms()
+	const classrooms = await getAllAvailableClassrooms()
 
 	return (
 		<div>

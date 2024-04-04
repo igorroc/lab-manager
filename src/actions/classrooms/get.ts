@@ -8,6 +8,16 @@ export async function getAllClassrooms() {
 	return classrooms
 }
 
+export async function getAllAvailableClassrooms() {
+	const classrooms = await db.classroom.findMany({
+		where: {
+			active: true,
+		},
+	})
+
+	return classrooms
+}
+
 export async function getClassroomById(id: string) {
 	const classroom = await db.classroom.findUnique({
 		where: {

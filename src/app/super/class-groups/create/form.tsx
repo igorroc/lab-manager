@@ -46,7 +46,7 @@ export default function Form(props: FormProps) {
 			return router.push("/super/professors/create")
 		}
 		if (props.classrooms.length === 0) {
-			toast.error("Nenhum laboratório cadastrado")
+			toast.error("Nenhum laboratório disponível")
 			// return router.push("/super/classrooms/create")
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
