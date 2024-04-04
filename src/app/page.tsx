@@ -1,5 +1,6 @@
-import Calendar from "@/components/Calendar"
 import Link from "next/link"
+
+import Calendar from "@/components/Calendar"
 
 export const revalidate = 1
 
