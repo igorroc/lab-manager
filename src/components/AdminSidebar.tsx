@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 
@@ -11,6 +12,7 @@ import { FaBook, FaChalkboardTeacher, FaClock, FaCog, FaHome } from "react-icons
 import { useSidebarOpen } from "@/store/SidebarOpen"
 
 import LogoutButton from "./LogoutButton"
+import Logo from "@/../public/logo.png"
 
 export default function AdminSidebar() {
 	const pathname = usePathname()
@@ -88,8 +90,8 @@ export default function AdminSidebar() {
 		>
 			<div className="h-full flex flex-col justify-between">
 				<div className="flex flex-col gap-2">
-					<div className="flex items-center justify-center py-4">
-						<h1>Lab Manager</h1>
+					<div className="flex items-center justify-center py-4 px-8">
+						<Image src={Logo} alt="Logo do LabManager" />
 					</div>
 					<div className="flex flex-col gap-2 p-4">
 						{routes.map((route) => (
