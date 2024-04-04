@@ -229,7 +229,11 @@ export default function CalendarClient(props: CalendarProps) {
 											{TWeekDays.map((day) => (
 												<div
 													key={day.id}
-													className="border border-gray-100"
+													className={`border border-gray-100/10 ${
+														collapsedTimeSlots[index_period][index]
+															? ""
+															: "rounded-xl"
+													}`}
 												>
 													<ScrollShadow
 														className={`flex flex-col items-center transition-all py-4 ${
