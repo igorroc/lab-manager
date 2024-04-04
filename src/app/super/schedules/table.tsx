@@ -41,7 +41,6 @@ export default function SchedulesTable(props: OrderProps) {
 		{ key: "dayOfWeek", label: "Dia da semana" },
 		{ key: "startTime", label: "Início" },
 		{ key: "endTime", label: "Fim" },
-		{ key: "stepDuration", label: "Duração/Aula" },
 		{ key: "actions", label: "Ações" },
 	]
 
@@ -73,10 +72,6 @@ export default function SchedulesTable(props: OrderProps) {
 
 		if (columnKey === "dayOfWeek") {
 			return mapWeekDayToName(item.dayOfWeek)
-		}
-
-		if (columnKey === "stepDuration") {
-			return item.stepDuration + "min"
 		}
 
 		return value

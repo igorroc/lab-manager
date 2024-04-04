@@ -182,14 +182,6 @@ export default function Form(props: FormProps) {
 				value={endTime}
 				onChange={(e) => setEndTime(e.target.value)}
 			/>
-			<Input
-				isRequired
-				isDisabled={loading}
-				name="stepDuration"
-				type="number"
-				label="Duração da aula (min)"
-				defaultValue={props.schedule.stepDuration.toString()}
-			/>
 			<Select
 				isRequired
 				items={TWeekDays}

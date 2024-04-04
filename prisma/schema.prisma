@@ -111,7 +111,6 @@ model Schedule {
   dayOfWeek    WeekDay
   startTime    String // Formato HH:mm
   endTime      String // Formato HH:mm
-  stepDuration Int
 
   classGroup   ClassGroup @relation(fields: [classGroupId], references: [id])
   classGroupId String

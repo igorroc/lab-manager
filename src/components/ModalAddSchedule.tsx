@@ -55,13 +55,6 @@ export default function ModalAddSchedule(props: ModalProps) {
 			return toast.error("Preencha todos os campos")
 		}
 
-		const formData = new FormData()
-		formData.append("startTime", props.startTime)
-		formData.append("endTime", endTime)
-		formData.append("stepDuration", "50")
-		formData.append("dayOfWeek", props.selectedDay.id)
-		formData.append("classGroup", selectedClassGroup.id)
-
 		const saveClassroom = await setClassroomToClassGroupAction(
 			selectedClassGroup.id,
 			props.selectedClassroom.id
@@ -69,6 +62,12 @@ export default function ModalAddSchedule(props: ModalProps) {
 		if ("error" in saveClassroom) {
 			return toast.error(saveClassroom.error)
 		}
+
+		const formData = new FormData()
+		formData.append("startTime", props.startTime)
+		formData.append("endTime", endTime)
+		formData.append("dayOfWeek", props.selectedDay.id)
+		formData.append("classGroup", selectedClassGroup.id)
 		const created = await createScheduleAction(formData)
 		if ("error" in created) {
 			return toast.error(created.error)

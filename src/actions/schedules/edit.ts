@@ -11,7 +11,6 @@ export async function editScheduleAction(formData: FormData) {
 		id: formData.get("id") as string,
 		startTime: formData.get("startTime") as string, // formato HH:MM
 		endTime: formData.get("endTime") as string, // formato HH:MM
-		stepDuration: Number(formData.get("stepDuration")),
 		dayOfWeek: formData.get("dayOfWeek") as WeekDay,
 		classGroupId: formData.get("classGroup") as string,
 	}
@@ -26,10 +25,6 @@ export async function editScheduleAction(formData: FormData) {
 
 	if (!checkTimeGreaterThan(newSchedule.startTime, newSchedule.endTime)) {
 		return { error: "O horário de término deve ser maior que o horário de início" }
-	}
-
-	if (newSchedule.stepDuration < 1) {
-		return { error: "A duração da aula deve ser de pelo menos 1 minuto" }
 	}
 
 	if (!Object.values(WeekDay).includes(newSchedule.dayOfWeek)) {
