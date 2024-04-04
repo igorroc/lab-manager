@@ -24,6 +24,7 @@ type CalendarProps = {
 	schedules: ScheduleWithRelations[]
 	periods: TPeriod[]
 	classDuration: string
+	smaller?: boolean
 }
 
 export default function CalendarClient(props: CalendarProps) {
@@ -210,7 +211,7 @@ export default function CalendarClient(props: CalendarProps) {
 			</div>
 
 			<ScrollShadow
-				className="w-full max-w-[1300px] mx-auto"
+				className="w-full max-w-[1300px] mx-auto text-center"
 				orientation="horizontal"
 				hideScrollBar
 			>
@@ -235,11 +236,11 @@ export default function CalendarClient(props: CalendarProps) {
 								return (
 									<div key={time}>
 										<div
-											className={`flex flex-col p-2 left-10 md:left-24 absolute ${
+											className={`flex flex-col p-2 absolute ${
 												!collapsedTimeSlots[index_period][index]
 													? "justify-between h-40"
 													: "justify-center h-2 py-4"
-											}`}
+											} ${props.smaller ? "w-20" : "left-10 md:left-24"}`}
 										>
 											<h2 className="z-10">{time}</h2>
 											{!collapsedTimeSlots[index_period][index] && (

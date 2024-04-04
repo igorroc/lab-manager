@@ -3,7 +3,11 @@ import { getAllSchedules } from "@/actions/schedules/get"
 
 import CalendarClient from "./CalendarClient"
 
-export default async function Calendar() {
+type CalendarProps = {
+	smaller?: boolean
+}
+
+export default async function Calendar(props: CalendarProps) {
 	const schedules = await getAllSchedules()
 	const classDuration = await getSetting("classDuration", "50")
 	const periods = [
@@ -21,7 +25,12 @@ export default async function Calendar() {
 
 	return (
 		<div className="my-10 w-full">
-			<CalendarClient schedules={schedules} periods={periods} classDuration={classDuration} />
+			<CalendarClient
+				schedules={schedules}
+				periods={periods}
+				classDuration={classDuration}
+				smaller={props.smaller}
+			/>
 		</div>
 	)
 }
