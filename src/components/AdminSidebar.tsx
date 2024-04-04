@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 
 import { MdMeetingRoom } from "react-icons/md"
@@ -13,7 +14,8 @@ import LogoutButton from "./LogoutButton"
 
 export default function AdminSidebar() {
 	const pathname = usePathname()
-	const [sidebarOpen, toggleSidebarOpen] = useSidebarOpen((state) => [state.open, state.toggle])
+	const [sidebarOpen, closeSideBar] = useSidebarOpen((state) => [state.isOpen, state.close])
+	const sideBarRef = useRef<HTMLDivElement>(null)
 
 	const routes = [
 		{
@@ -57,6 +59,24 @@ export default function AdminSidebar() {
 		return pathname.includes(routePath)
 	}
 
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			if (sideBarRef.current && !sideBarRef.current.contains(event.target as Node)) {
+				if (event.target) {
+					const target = event.target as HTMLElement
+					if (target.id === "sidebar-open") return
+					closeSideBar()
+				}
+			}
+		}
+
+		document.addEventListener("click", handleClickOutside)
+
+		return () => {
+			document.removeEventListener("click", handleClickOutside)
+		}
+	}, [sideBarRef, closeSideBar])
+
 	return (
 		<aside
 			className={`fixed z-50 w-64 bg-content1 h-dvh transition-all ${
@@ -64,6 +84,7 @@ export default function AdminSidebar() {
 					? "translate-x-0 shadow-lg"
 					: "-translate-x-full md:-translate-x-0 md:shadow-lg"
 			}`}
+			ref={sideBarRef}
 		>
 			<div className="h-full flex flex-col justify-between">
 				<div className="flex flex-col gap-2">
