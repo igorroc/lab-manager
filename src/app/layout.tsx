@@ -9,6 +9,7 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
+	metadataBase: new URL("https://lab.ilrocha.com"),
 	title: "Lab Manager",
 	description:
 		"Descubra o sistema inovador de gestão de laboratórios da UESC, projetado para otimizar a reserva e o uso de espaços acadêmicos. Acesse informações atualizadas sobre disponibilidade de salas e organize seus horários com eficiência e transparência.",
