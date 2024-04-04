@@ -68,7 +68,7 @@ export default function SchedulesTable(props: OrderProps) {
 		}
 
 		if (columnKey === "classroom") {
-			return item.classGroup.classroom.name
+			return item.classGroup.classroom?.name || "Nenhum laboratório definido"
 		}
 
 		if (columnKey === "dayOfWeek") {

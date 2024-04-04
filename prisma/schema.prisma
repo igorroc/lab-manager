@@ -97,8 +97,8 @@ model ClassGroup {
   subjectId   String
   professor   Professor @relation(fields: [professorId], references: [id])
   professorId String
-  classroom   Classroom @relation(fields: [classroomId], references: [id])
-  classroomId String
+  classroom   Classroom? @relation(fields: [classroomId], references: [id])
+  classroomId String?
 
   schedules Schedule[]
 

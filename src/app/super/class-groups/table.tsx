@@ -67,7 +67,7 @@ export default function ClassGroupsTable(props: OrderProps) {
 			return item.subject.name
 		}
 		if (columnKey === "classroom") {
-			return item.classroom.name
+			return item.classroom?.name || "Sem laboratório definido"
 		}
 
 		if (columnKey === "color") {

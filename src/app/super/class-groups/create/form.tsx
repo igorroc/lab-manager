@@ -23,6 +23,7 @@ export default function Form(props: FormProps) {
 
 	async function handleSubmit(formData: FormData) {
 		setLoading(true)
+		formData.set("classroom", selectedClassroom ? selectedClassroom.id : "")
 		const created = await createClassGroupAction(formData)
 
 		if ("error" in created) {
@@ -46,7 +47,7 @@ export default function Form(props: FormProps) {
 		}
 		if (props.classrooms.length === 0) {
 			toast.error("Nenhum laboratório cadastrado")
-			return router.push("/super/classrooms/create")
+			// return router.push("/super/classrooms/create")
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.subjects])
@@ -109,10 +110,10 @@ export default function Form(props: FormProps) {
 				{(subject) => <SelectItem key={subject.id}>{subject.name}</SelectItem>}
 			</Select>
 			<Select
-				isRequired
 				items={props.classrooms}
 				label="Laboratório"
 				placeholder="Selecione o laboratório"
+				description="Você pode cadastrar um laboratório depois. Pelo painel de visualização dos horários."
 				name="classroom"
 				onChange={(e) =>
 					setSelectedClassroom(props.classrooms.find((c) => c.id === e.target.value))

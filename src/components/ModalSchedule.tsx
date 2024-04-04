@@ -34,7 +34,7 @@ export default function ModalSchedule(props: ModalProps) {
 							</p>
 							<p>
 								<strong>Sala:</strong>{" "}
-								{props.selectedSchedule?.classGroup.classroom.name}
+								{props.selectedSchedule?.classGroup.classroom?.name || "Sem sala definida"}
 							</p>
 						</ModalBody>
 						<ModalFooter>

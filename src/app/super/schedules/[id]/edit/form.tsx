@@ -96,7 +96,7 @@ export default function Form(props: FormProps) {
 			const schedulesByDayAndClassroom = props.schedules.filter(
 				(s) =>
 					s.dayOfWeek === dayOfWeek &&
-					s.classGroup.classroom.id === selectedClassGroup.classroom.id &&
+					s.classGroup.classroom?.id === selectedClassGroup.classroom?.id &&
 					s.id !== props.schedule.id
 			)
 			if (schedulesByDayAndClassroom.length > 0) {
@@ -220,10 +220,19 @@ export default function Form(props: FormProps) {
 				{(classGroup) => (
 					<SelectItem
 						key={classGroup.id}
-						textValue={`${classGroup.name} - ${classGroup.subject.name} - ${classGroup.professor.name} - ${classGroup.classroom.name}`}
+						textValue={`${classGroup.name} - ${classGroup.subject.name} - ${
+							classGroup.professor.name
+						} - ${
+							classGroup.classroom
+								? classGroup.classroom.name
+								: "Sem laboratório definido"
+						}`}
 					>
 						{classGroup.name} - {classGroup.subject.name} - {classGroup.professor.name}{" "}
-						- {classGroup.classroom.name}
+						-{" "}
+						{classGroup.classroom
+							? classGroup.classroom.name
+							: "Sem laboratório definido"}
 					</SelectItem>
 				)}
 			</Select>

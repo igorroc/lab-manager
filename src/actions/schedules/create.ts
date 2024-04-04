@@ -42,6 +42,7 @@ export async function createScheduleAction(formData: FormData) {
 
 		return created
 	} catch (err) {
+		console.log(err)
 		if (err instanceof Prisma.PrismaClientKnownRequestError) {
 			return {
 				error: "Erro no banco de dados",

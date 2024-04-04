@@ -2,13 +2,16 @@ import { getSetting } from "@/actions/settings/get"
 import { getAllSchedules } from "@/actions/schedules/get"
 
 import CalendarClient from "./CalendarClient"
+import { getAllClassGroups } from "@/actions/class-groups/get"
 
 type CalendarProps = {
 	smaller?: boolean
+	isAdmin?: boolean
 }
 
 export default async function Calendar(props: CalendarProps) {
 	const schedules = await getAllSchedules()
+	const classGroups = await getAllClassGroups()
 	const classDuration = await getSetting("classDuration", "50")
 	const periods = [
 		{
@@ -30,6 +33,8 @@ export default async function Calendar(props: CalendarProps) {
 				periods={periods}
 				classDuration={classDuration}
 				smaller={props.smaller}
+				isAdmin={props.isAdmin}
+				classGroups={classGroups}
 			/>
 		</div>
 	)

@@ -35,3 +35,26 @@ export async function editClassGroupAction(formData: FormData) {
 		return { error: "Erro desconhecido" }
 	}
 }
+
+export async function setClassroomToClassGroupAction(classGroupId: string, classroomId: string) {
+	try {
+		const edited = await db.classGroup.update({
+			where: {
+				id: classGroupId,
+			},
+			data: {
+				classroomId,
+			},
+		})
+
+		return edited
+	} catch (err) {
+		if (err instanceof Prisma.PrismaClientKnownRequestError) {
+			return {
+				error: "Erro no banco de dados",
+			}
+		}
+
+		return { error: "Erro desconhecido" }
+	}
+}

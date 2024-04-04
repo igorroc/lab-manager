@@ -21,7 +21,7 @@ export default function Form(props: FormProps) {
 	const [loading, setLoading] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
 	const [selectedClassroom, setSelectedClassroom] = useState<Classroom | undefined>(
-		props.classGroup.classroom
+		props.classGroup.classroom || undefined
 	)
 	const [alumniCount, setAlumniCount] = useState(props.classGroup.alumniCount.toString())
 
@@ -131,7 +131,9 @@ export default function Form(props: FormProps) {
 					setSelectedClassroom(props.classrooms.find((c) => c.id === e.target.value))
 				}
 				value={selectedClassroom?.id}
-				defaultSelectedKeys={[props.classGroup.classroom.id]}
+				defaultSelectedKeys={
+					props.classGroup.classroom ? [props.classGroup.classroom.id] : []
+				}
 			>
 				{(classroom) => <SelectItem key={classroom.id}>{classroom.name}</SelectItem>}
 			</Select>
