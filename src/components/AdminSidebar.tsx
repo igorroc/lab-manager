@@ -101,6 +101,7 @@ export default function AdminSidebar() {
 										? "bg-primary text-white opacity-100 hover:bg-primary"
 										: "opacity-40"
 								}`}
+								onClick={closeSideBar}
 							>
 								{route.icon && <span>{route.icon}</span>}
 								{route.name}
