@@ -33,10 +33,12 @@ export default function ClassroomsTable(props: OrderProps) {
 	}, [page, props.classrooms])
 
 	const columns = [
+		{ key: "active", label: "Ativo" },
 		{ key: "name", label: "Nome" },
 		{ key: "capacity", label: "Capacidade" },
 		{ key: "computerCount", label: "Computadores" },
 		{ key: "projectorCount", label: "Projetores" },
+		{ key: "hasAir", label: "Ar condicionado" },
 		{ key: "actions", label: "Ações" },
 	]
 
@@ -55,6 +57,28 @@ export default function ClassroomsTable(props: OrderProps) {
 						</Link>
 					</Tooltip>
 				</div>
+			)
+		}
+
+		if (columnKey === "active" || columnKey === "hasAir") {
+			return (
+				<Tooltip
+					content={
+						columnKey === "active"
+							? value
+								? "Laboratório ativo"
+								: "Laboratório inativo"
+							: value
+							? "Possui ar condicionado"
+							: "Não possui ar condicionado"
+					}
+				>
+					<span
+						className={`w-4 h-4 ${
+							value ? "bg-green-500" : "bg-red-500"
+						} rounded-full block`}
+					></span>
+				</Tooltip>
 			)
 		}
 

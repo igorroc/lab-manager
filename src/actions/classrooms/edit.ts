@@ -12,6 +12,8 @@ export async function editClassroomAction(formData: FormData) {
 		computerCount: Number(formData.get("computerCount")),
 		projectorCount: Number(formData.get("projectorCount")),
 		priority: Number(formData.get("priority")),
+		hasAir: formData.get("hasAir") === "true",
+		active: formData.get("active") === "true",
 	}
 
 	try {

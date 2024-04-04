@@ -8,8 +8,8 @@ generator client {
 datasource db {
   provider          = "postgresql"
   url               = env("POSTGRES_PRISMA_URL")
-  directUrl         = env("POSTGRES_URL_NON_POOLING")
-  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING")
+  // directUrl         = env("POSTGRES_URL_NON_POOLING")
+  // shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 enum Period {
@@ -50,6 +50,8 @@ model Classroom {
   projectorCount Int
   capacity       Int
   priority       Int    @default(0)
+  active         Boolean @default(true)
+  hasAir         Boolean @default(true)
 
   classGroups ClassGroup[]
 
@@ -77,6 +79,7 @@ model Professor {
   id          String  @id @default(cuid())
   name        String
   email       String  @unique
+  phone       String?
   observation String?
   color       String  @default("#ef531c")
 

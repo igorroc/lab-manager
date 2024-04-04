@@ -29,6 +29,7 @@ export default function Form() {
 		<form action={handleSubmit} className="flex flex-col items-center gap-2">
 			<Input isRequired isDisabled={loading} name="name" type="text" label="Nome" />
 			<Input isRequired isDisabled={loading} name="email" type="email" label="Email" />
+			<Input isDisabled={loading} name="phone" type="tel" label="Telefone" />
 			<Textarea isDisabled={loading} name="observation" label="Observações" />
 			<Input
 				isDisabled={loading}

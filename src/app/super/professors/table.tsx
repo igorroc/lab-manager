@@ -36,6 +36,7 @@ export default function ProfessorsTable(props: OrderProps) {
 		{ key: "color", label: "Cor" },
 		{ key: "name", label: "Nome" },
 		{ key: "email", label: "Email" },
+		{ key: "phone", label: "Telefone" },
 		{ key: "actions", label: "Ações" },
 	]
 

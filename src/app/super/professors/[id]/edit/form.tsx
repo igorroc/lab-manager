@@ -49,6 +49,13 @@ export default function Form(props: FormProps) {
 				label="Email"
 				defaultValue={props.professor.email}
 			/>
+			<Input
+				isDisabled={loading}
+				name="phone"
+				type="tel"
+				label="Telefone"
+				defaultValue={props.professor.phone || ""}
+			/>
 			<Textarea
 				isDisabled={loading}
 				name="observation"

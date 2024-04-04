@@ -4,7 +4,7 @@ import { useState } from "react"
 import { toast } from "react-toastify"
 import { Classroom } from "@prisma/client"
 import { useRouter } from "next/navigation"
-import { Button, Input } from "@nextui-org/react"
+import { Button, Input, Switch } from "@nextui-org/react"
 
 import { editClassroomAction } from "@/actions/classrooms/edit"
 
@@ -15,10 +15,17 @@ type FormProps = {
 export default function Form(props: FormProps) {
 	const router = useRouter()
 	const [loading, setLoading] = useState(false)
+	const [checkboxes, setCheckboxes] = useState({
+		hasAir: props.classroom.hasAir,
+		active: props.classroom.active,
+	})
 
 	async function handleSubmit(formData: FormData) {
 		setLoading(true)
+
 		formData.append("id", props.classroom.id.toString())
+		formData.set("hasAir", checkboxes.hasAir.toString())
+		formData.set("active", checkboxes.active.toString())
 
 		const created = await editClassroomAction(formData)
 
@@ -33,7 +40,7 @@ export default function Form(props: FormProps) {
 	}
 
 	return (
-		<form action={handleSubmit} className="flex flex-col items-center gap-2">
+		<form action={handleSubmit} className="flex flex-col gap-2">
 			<Input
 				isRequired
 				isDisabled={loading}
@@ -73,6 +80,22 @@ export default function Form(props: FormProps) {
 				label="Prioridade"
 				defaultValue={props.classroom.priority.toString()}
 			/>
+			<Switch
+				isDisabled={loading}
+				name="hasAir"
+				onChange={(e) => setCheckboxes({ ...checkboxes, hasAir: e.target.checked })}
+				defaultSelected={checkboxes.hasAir}
+			>
+				Possui ar condicionado
+			</Switch>
+			<Switch
+				isDisabled={loading}
+				name="active"
+				onChange={(e) => setCheckboxes({ ...checkboxes, active: e.target.checked })}
+				defaultSelected={checkboxes.active}
+			>
+				Ativo
+			</Switch>
 			<Button isLoading={loading} color="primary" className="w-full" type="submit">
 				Editar
 			</Button>
