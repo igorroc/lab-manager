@@ -112,7 +112,9 @@ export default function CalendarClient(props: CalendarProps) {
 			<div className="flex flex-col gap-2 justify-center items-center mx-auto mb-8 max-w-[875px]">
 				<div className="flex flex-wrap gap-2 w-full">
 					<Select
-						items={mappedClassrooms}
+						items={mappedClassrooms.sort((a, b) =>
+							a && b ? a.name.localeCompare(b.name) : 0
+						)}
 						label="Laboratório"
 						selectionMode="multiple"
 						onChange={(value) => {
@@ -136,7 +138,9 @@ export default function CalendarClient(props: CalendarProps) {
 						}
 					</Select>
 					<Select
-						items={mappedProfessors}
+						items={mappedProfessors.sort((a, b) =>
+							a && b ? a.name.localeCompare(b.name) : 0
+						)}
 						label="Professor"
 						selectionMode="multiple"
 						onChange={(value) => {
