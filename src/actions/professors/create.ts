@@ -10,7 +10,6 @@ export async function createProfessorAction(formData: FormData) {
 		email: formData.get("email") as string,
 		phone: formData.get("phone") as string,
 		observation: formData.get("observation") as string,
-		color: formData.get("color") as string,
 	}
 
 	try {
