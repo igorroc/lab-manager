@@ -7,6 +7,7 @@ import CalendarClient from "./CalendarClient"
 type CalendarProps = {
 	smaller?: boolean
 	isAdmin?: boolean
+	editingOnly?: boolean
 }
 
 export default async function Calendar(props: CalendarProps) {
@@ -35,6 +36,7 @@ export default async function Calendar(props: CalendarProps) {
 				smaller={props.smaller}
 				isAdmin={props.isAdmin}
 				classGroups={classGroups}
+				editingOnly={props.editingOnly}
 			/>
 		</div>
 	)

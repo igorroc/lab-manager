@@ -1,18 +1,12 @@
-import { getAllSchedules } from "@/actions/schedules/get"
-import { getAllClassGroups } from "@/actions/class-groups/get"
+import Calendar from "@/components/Calendar"
 
-import Form from "./form"
-
-export const revalidate = 1
+export const revalidate = 0
 
 export default async function CreateSchedule() {
-	const classGroups = await getAllClassGroups()
-	const schedules = await getAllSchedules()
-
 	return (
 		<div>
 			<h1>Criar Horário</h1>
-			<Form classGroups={classGroups} schedules={schedules} />
+			<Calendar smaller isAdmin editingOnly/>
 		</div>
 	)
 }

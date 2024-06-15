@@ -40,6 +40,7 @@ type CalendarProps = {
 	classDuration: string
 	smaller?: boolean
 	isAdmin?: boolean
+	editingOnly?: boolean
 }
 
 export default function CalendarClient(props: CalendarProps) {
@@ -51,7 +52,7 @@ export default function CalendarClient(props: CalendarProps) {
 	const { isOpen: isAddOpen, onOpen: onAddOpen, onOpenChange: onAddOpenChange } = useDisclosure()
 	const [selectedSchedule, setSelectedSchedule] = useState<ScheduleWithRelations | null>(null)
 	const [search, setSearch] = useCalendarFilter((state) => [state.search, state.setSearch])
-	const [editingMode, setEditingMode] = useState(false)
+	const [editingMode, setEditingMode] = useState(props.editingOnly || false)
 	const weekDates = getWeekDates(new Date())
 	const [addOptions, setAddOptions] = useState<{
 		selectedClassroom: Classroom | undefined | null
@@ -280,7 +281,7 @@ export default function CalendarClient(props: CalendarProps) {
 					/>
 				)}
 
-				{props.isAdmin && (
+				{props.isAdmin && !props.editingOnly && (
 					<Button
 						onClick={handleToggleEditingMode}
 						color={editingMode ? "danger" : "primary"}
