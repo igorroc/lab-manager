@@ -17,8 +17,9 @@ import { FaBook, FaClock } from "react-icons/fa6"
 import { MdMeetingRoom } from "react-icons/md"
 import { FaChalkboardTeacher } from "react-icons/fa"
 
-import { ScheduleWithRelations } from "@/actions/schedules/get"
+import { revalidateAll } from "@/actions/revalidate"
 import { deleteScheduleById } from "@/actions/schedules/delete"
+import { ScheduleWithRelations } from "@/actions/schedules/get"
 
 type ModalProps = {
 	isOpen: boolean
@@ -36,6 +37,7 @@ export default function ModalSchedule(props: ModalProps) {
 
 		props.onOpenChange()
 		setIsLoading(false)
+		await revalidateAll()
 	}
 
 	return (
