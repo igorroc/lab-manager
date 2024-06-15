@@ -111,19 +111,6 @@ export default function Form(props: FormProps) {
 			>
 				{(subject) => <SelectItem key={subject.id}>{subject.name}</SelectItem>}
 			</Select>
-			<Select
-				items={props.classrooms}
-				label="Laboratório"
-				placeholder="Selecione o laboratório"
-				description="Você pode cadastrar um laboratório depois. Pelo painel de visualização dos horários."
-				name="classroom"
-				onChange={(e) =>
-					setSelectedClassroom(props.classrooms.find((c) => c.id === e.target.value))
-				}
-				value={selectedClassroom?.id}
-			>
-				{(classroom) => <SelectItem key={classroom.id}>{classroom.name}</SelectItem>}
-			</Select>
 			{errorMessage && (
 				<p className="px-4 py-2 rounded-lg w-full border border-red-600 text-red-600 font-medium">
 					{errorMessage}
