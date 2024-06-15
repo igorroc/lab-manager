@@ -47,8 +47,15 @@ export default function ProfessorsTable(props: OrderProps) {
 	const items = useMemo(() => {
 		const start = (page - 1) * rowsPerPage
 		const end = start + rowsPerPage
+
+		if (filterValue) {
+			return props.professors
+				.filter((item) => item.name.toLowerCase().includes(filterValue.toLowerCase()))
+				.slice(start, end)
+		}
+
 		return props.professors.slice(start, end)
-	}, [page, props.professors])
+	}, [page, props.professors, filterValue])
 
 	const columns = [
 		{ key: "name", label: "Nome" },
