@@ -6,8 +6,9 @@ import { useEffect, useState } from "react"
 import { Classroom, Professor, Subject } from "@prisma/client"
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react"
 
-import { ClassGroupsWithRelations } from "@/actions/class-groups/get"
+import { revalidateAll } from "@/actions/revalidate"
 import { editClassGroupAction } from "@/actions/class-groups/edit"
+import { ClassGroupsWithRelations } from "@/actions/class-groups/get"
 
 type FormProps = {
 	subjects: Subject[]
@@ -35,6 +36,7 @@ export default function Form(props: FormProps) {
 		} else {
 			toast.success("Turma editada com sucesso!")
 			router.push("/super/class-groups")
+			await revalidateAll()
 		}
 
 		setLoading(false)

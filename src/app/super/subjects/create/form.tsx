@@ -5,6 +5,7 @@ import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import { Button, Input, Textarea } from "@nextui-org/react"
 
+import { revalidateAll } from "@/actions/revalidate"
 import { createSubjectAction } from "@/actions/subjects/create"
 
 export default function Form() {
@@ -20,6 +21,7 @@ export default function Form() {
 		} else {
 			toast.success("Disciplina cadastrada com sucesso!")
 			router.push("/super/subjects")
+			await revalidateAll()
 		}
 
 		setLoading(false)

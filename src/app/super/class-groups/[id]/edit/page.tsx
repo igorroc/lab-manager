@@ -1,6 +1,6 @@
-import { getAllProfessors } from "@/actions/professors/get"
 import { getAllSubjects } from "@/actions/subjects/get"
 import { getAllClassrooms } from "@/actions/classrooms/get"
+import { getAllProfessors } from "@/actions/professors/get"
 import { getClassGroupById } from "@/actions/class-groups/get"
 
 import Form from "./form"
@@ -10,7 +10,7 @@ type EditProps = {
 		id: string
 	}
 }
-export const revalidate = 1
+export const revalidate = 0
 
 export default async function EditClassGroup(props: EditProps) {
 	const professors = await getAllProfessors()

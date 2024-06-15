@@ -1,6 +1,6 @@
 import Calendar from "@/components/Calendar"
 
-export const revalidate = 1
+export const revalidate = 0
 
 export default function SuperDashboard() {
 	return (

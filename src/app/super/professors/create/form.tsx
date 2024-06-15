@@ -5,6 +5,7 @@ import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import { Button, Input, Textarea } from "@nextui-org/react"
 
+import { revalidateAll } from "@/actions/revalidate"
 import { createProfessorAction } from "@/actions/professors/create"
 
 export default function Form() {
@@ -20,6 +21,7 @@ export default function Form() {
 		} else {
 			toast.success("Professor cadastrado com sucesso!")
 			router.push("/super/professors")
+			await revalidateAll()
 		}
 
 		setLoading(false)

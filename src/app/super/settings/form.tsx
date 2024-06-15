@@ -3,6 +3,7 @@
 import { toast } from "react-toastify"
 import { Button, Input } from "@nextui-org/react"
 
+import { revalidateAll } from "@/actions/revalidate"
 import { setSettingsByForm } from "@/actions/settings/create"
 
 type FormProps = {
@@ -20,6 +21,7 @@ export default function Form(props: FormProps) {
 
 		if (settings.length === 0) {
 			toast.success("Configurações salvas com sucesso!")
+			await revalidateAll()
 		} else {
 			toast.error("Erro ao salvar configurações, veja o console para mais informações.")
 			console.error("Erro ao salvar config", settings)

@@ -2,11 +2,11 @@
 
 import { useState } from "react"
 import { toast } from "react-toastify"
+import { Subject } from "@prisma/client"
 import { useRouter } from "next/navigation"
 import { Button, Input, Textarea } from "@nextui-org/react"
 
-import { createSubjectAction } from "@/actions/subjects/create"
-import { Subject } from "@prisma/client"
+import { revalidateAll } from "@/actions/revalidate"
 import { editSubjectAction } from "@/actions/subjects/edit"
 
 type FormProps = {
@@ -27,6 +27,7 @@ export default function Form(props: FormProps) {
 		} else {
 			toast.success("Disciplina cadastrada com sucesso!")
 			router.push("/super/subjects")
+			await revalidateAll()
 		}
 
 		setLoading(false)

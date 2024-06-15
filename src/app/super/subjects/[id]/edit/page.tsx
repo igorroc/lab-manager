@@ -7,7 +7,7 @@ type EditProps = {
 	}
 }
 
-export const revalidate = 1
+export const revalidate = 0
 
 export default async function EditSubject(props: EditProps) {
 	const subject = await getSubjectById(props.params.id)

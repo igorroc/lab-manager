@@ -4,7 +4,7 @@ import { getAllAvailableClassrooms } from "@/actions/classrooms/get"
 
 import Form from "./form"
 
-export const revalidate = 1
+export const revalidate = 0
 
 export default async function CreateClassGroup() {
 	const professors = await getAllProfessors()

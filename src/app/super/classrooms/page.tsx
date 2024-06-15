@@ -7,7 +7,7 @@ import { getAllClassrooms } from "@/actions/classrooms/get"
 
 import ClassroomsTable from "./table"
 
-export const revalidate = 1
+export const revalidate = 0
 
 export default async function ViewClassrooms() {
 	const classrooms = await getAllClassrooms()

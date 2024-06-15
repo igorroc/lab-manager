@@ -7,7 +7,7 @@ import { getAllSubjects } from "@/actions/subjects/get"
 
 import SubjectsTable from "./table"
 
-export const revalidate = 1
+export const revalidate = 0
 
 export default async function ViewSubjects() {
 	const subjects = await getAllSubjects()

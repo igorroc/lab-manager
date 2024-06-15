@@ -1,12 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { Classroom, Professor, Subject } from "@prisma/client"
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react"
 
+import { revalidateAll } from "@/actions/revalidate"
 import { createClassGroupAction } from "@/actions/class-groups/create"
-import { Classroom, Professor, Subject } from "@prisma/client"
 
 type FormProps = {
 	subjects: Subject[]
@@ -31,6 +32,7 @@ export default function Form(props: FormProps) {
 		} else {
 			toast.success("Turma cadastrada com sucesso!")
 			router.push("/super/class-groups")
+			await revalidateAll()
 		}
 
 		setLoading(false)

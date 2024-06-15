@@ -2,7 +2,7 @@ import { getSetting } from "@/actions/settings/get"
 
 import Form from "./form"
 
-export const revalidate = 1
+export const revalidate = 0
 
 export default async function Settings() {
 	const classDuration = await getSetting("classDuration", "50")

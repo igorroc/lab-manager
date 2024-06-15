@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Button, Input, Select, SelectItem } from "@nextui-org/react"
 
-import { TClassGroupWithEverything } from "@/actions/class-groups/create"
-import { ScheduleWithRelations } from "@/actions/schedules/get"
+import { revalidateAll } from "@/actions/revalidate"
 import { editScheduleAction } from "@/actions/schedules/edit"
+import { ScheduleWithRelations } from "@/actions/schedules/get"
+import { TClassGroupWithEverything } from "@/actions/class-groups/create"
 
 import { TWeekDays } from "@/utils/WeekDay"
 import { checkTimeBetween, checkTimeGreaterThan } from "@/utils/Date"
@@ -39,6 +40,7 @@ export default function Form(props: FormProps) {
 		} else {
 			toast.success("Horário editado com sucesso!")
 			router.push("/super/schedules")
+			await revalidateAll()
 		}
 
 		setLoading(false)

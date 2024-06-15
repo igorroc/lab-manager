@@ -6,6 +6,7 @@ import { Classroom } from "@prisma/client"
 import { useRouter } from "next/navigation"
 import { Button, Input, Switch } from "@nextui-org/react"
 
+import { revalidateAll } from "@/actions/revalidate"
 import { editClassroomAction } from "@/actions/classrooms/edit"
 
 type FormProps = {
@@ -34,6 +35,7 @@ export default function Form(props: FormProps) {
 		} else {
 			toast.success("Laboratório editado com sucesso!")
 			router.push("/super/classrooms")
+			await revalidateAll()
 		}
 
 		setLoading(false)

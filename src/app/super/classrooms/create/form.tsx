@@ -5,6 +5,7 @@ import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import { Button, Input, Switch } from "@nextui-org/react"
 
+import { revalidateAll } from "@/actions/revalidate"
 import { createClassroomAction } from "@/actions/classrooms/create"
 
 export default function Form() {
@@ -28,6 +29,7 @@ export default function Form() {
 		} else {
 			toast.success("Laboratório cadastrado com sucesso!")
 			router.push("/super/classrooms")
+			await revalidateAll()
 		}
 
 		setLoading(false)
