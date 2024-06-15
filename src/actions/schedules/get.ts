@@ -26,6 +26,9 @@ export async function getAllSchedules() {
 				},
 			},
 		},
+		orderBy: {
+			createdAt: "desc",
+		},
 	})
 
 	return schedules

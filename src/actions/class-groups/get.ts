@@ -18,6 +18,9 @@ export async function getAllClassGroups() {
 			professor: true,
 			subject: true,
 		},
+		orderBy: {
+			createdAt: "desc",
+		},
 	})
 
 	return classGroups

@@ -5,7 +5,11 @@ import db from "@/modules/db"
 import { setSetting } from "./create"
 
 export async function getAllSettings() {
-	const settings = await db.setting.findMany()
+	const settings = await db.setting.findMany({
+		orderBy: {
+			createdAt: "desc",
+		},
+	})
 
 	return settings
 }

@@ -3,7 +3,11 @@
 import db from "@/modules/db"
 
 export async function getAllProfessors() {
-	const professors = await db.professor.findMany()
+	const professors = await db.professor.findMany({
+		orderBy: {
+			createdAt: "desc",
+		},
+	})
 
 	return professors
 }

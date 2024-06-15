@@ -3,7 +3,11 @@
 import db from "@/modules/db"
 
 export async function getAllSubjects() {
-	const subjects = await db.subject.findMany()
+	const subjects = await db.subject.findMany({
+		orderBy: {
+			createdAt: "desc",
+		},
+	})
 
 	return subjects
 }
