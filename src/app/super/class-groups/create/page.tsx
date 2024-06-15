@@ -14,7 +14,11 @@ export default async function CreateClassGroup() {
 	return (
 		<div>
 			<h1>Criar Turma</h1>
-			<Form professors={professors} subjects={subjects} classrooms={classrooms} />
+			<Form
+				professors={professors.sort((a, b) => a.name.localeCompare(b.name))}
+				subjects={subjects.sort((a, b) => a.name.localeCompare(b.name))}
+				classrooms={classrooms.sort((a, b) => a.name.localeCompare(b.name))}
+			/>
 		</div>
 	)
 }
