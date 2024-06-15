@@ -27,7 +27,11 @@ export default function ModalSchedule(props: ModalProps) {
 	return (
 		<Modal isOpen={props.isOpen} onOpenChange={props.onOpenChange}>
 			<ModalContent>
-				<ModalHeader className="flex flex-col gap-1">
+				<ModalHeader className="flex items-center gap-2">
+					<div
+						className="w-4 h-4 rounded-full"
+						style={{ backgroundColor: props.selectedSchedule.classGroup.color }}
+					></div>
 					{props.selectedSchedule.classGroup.subject.code}
 				</ModalHeader>
 				<ModalBody>

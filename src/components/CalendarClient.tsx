@@ -2,17 +2,7 @@
 
 import { Classroom, Professor } from "@prisma/client"
 import { useEffect, useMemo, useState } from "react"
-import {
-	Button,
-	Input,
-	ScrollShadow,
-	Select,
-	SelectItem,
-	Tooltip,
-	useDisclosure,
-} from "@nextui-org/react"
-
-import { FaPlus } from "react-icons/fa6"
+import { Input, ScrollShadow, Select, SelectItem, useDisclosure } from "@nextui-org/react"
 
 import { ScheduleWithRelations } from "@/actions/schedules/get"
 import { TClassGroupWithEverything } from "@/actions/class-groups/create"
@@ -31,7 +21,6 @@ import {
 } from "@/utils/Date"
 
 import ModalSchedule from "./ModalSchedule"
-import ModalAddSchedule from "./ModalAddSchedule"
 
 type CalendarProps = {
 	schedules: ScheduleWithRelations[]
@@ -41,8 +30,6 @@ type CalendarProps = {
 	professors: Professor[]
 	classDuration: string
 	smaller?: boolean
-	isAdmin?: boolean
-	editingOnly?: boolean
 }
 
 export default function CalendarClient(props: CalendarProps) {
@@ -51,22 +38,9 @@ export default function CalendarClient(props: CalendarProps) {
 		onOpen: onViewOpen,
 		onOpenChange: onViewOpenChange,
 	} = useDisclosure()
-	const { isOpen: isAddOpen, onOpen: onAddOpen, onOpenChange: onAddOpenChange } = useDisclosure()
 	const [selectedSchedule, setSelectedSchedule] = useState<ScheduleWithRelations | null>(null)
 	const [search, setSearch] = useCalendarFilter((state) => [state.search, state.setSearch])
-	const [editingMode, setEditingMode] = useState(props.editingOnly || false)
 	const weekDates = getWeekDates(new Date())
-	const [addOptions, setAddOptions] = useState<{
-		selectedClassroom: Classroom | undefined | null
-		selectedDay: (typeof TWeekDays)[number] | undefined
-		startTime: string | undefined
-		endTime: string | undefined
-	}>({
-		selectedClassroom: undefined,
-		selectedDay: undefined,
-		startTime: undefined,
-		endTime: undefined,
-	})
 
 	const mappedProfessors = props.professors
 
@@ -115,13 +89,6 @@ export default function CalendarClient(props: CalendarProps) {
 		onViewOpen()
 	}
 
-	function handleToggleEditingMode() {
-		setEditingMode(!editingMode)
-		if (search.selectedClassrooms.length > 1) {
-			setSearch("selectedClassrooms", [])
-		}
-	}
-
 	function clearFilter() {
 		setSearch("selectedClassrooms", [])
 		setSearch("selectedProfessors", [])
@@ -133,31 +100,6 @@ export default function CalendarClient(props: CalendarProps) {
 		setSearch(filter, [])
 	}
 
-	function checkSlotIsAvailable(day: (typeof TWeekDays)[number], time: string) {
-		return (
-			filteredSchedules
-				.filter((schedule) => schedule.dayOfWeek === day.id)
-				.filter(
-					(schedule) =>
-						checkTimeGreaterEqualThan(schedule.startTime, time) &&
-						checkTimeGreaterThan(time, schedule.endTime)
-				).length == 0
-		)
-	}
-
-	function handleAddSchedule(day: (typeof TWeekDays)[number], time: string) {
-		if (search.selectedClassrooms.length === 0) return
-		setAddOptions({
-			selectedClassroom: mappedClassrooms.find(
-				(classroom) => classroom?.id === search.selectedClassrooms[0]
-			),
-			selectedDay: day,
-			startTime: time,
-			endTime: addMinutes(time, Number(props.classDuration)),
-		})
-		onAddOpen()
-	}
-
 	useEffect(() => {
 		const newCollapsedTimeSlots = mappedTimeSlots.map((period) => {
 			return period.map((time) => {
@@ -167,14 +109,10 @@ export default function CalendarClient(props: CalendarProps) {
 			})
 		})
 
-		if (!editingMode) {
-			setCollapsedTimeSlots(newCollapsedTimeSlots)
-		} else {
-			setCollapsedTimeSlots(mappedTimeSlots.map((period) => Array(period.length).fill(false)))
-		}
+		setCollapsedTimeSlots(newCollapsedTimeSlots)
 
 		// eslint-disable-next-line
-	}, [filteredSchedules, editingMode])
+	}, [filteredSchedules])
 
 	return (
 		<>
@@ -195,12 +133,7 @@ export default function CalendarClient(props: CalendarProps) {
 								</button>
 							) : null
 						}
-						selectionMode={editingMode ? "single" : "multiple"}
-						errorMessage={
-							editingMode && search.selectedClassrooms.length == 0
-								? "Selecione um laboratório"
-								: ""
-						}
+						selectionMode={"multiple"}
 						onChange={(value) => {
 							if (value.target.value) {
 								setSearch("selectedClassrooms", value.target.value.split(","))
@@ -257,63 +190,50 @@ export default function CalendarClient(props: CalendarProps) {
 							)
 						}
 					</Select>
-					{!editingMode && (
-						<Select
-							items={DefaultSemesters}
-							label="Semestre"
-							description={
-								search.selectedSemester.length > 0 ? (
-									<button
-										className="flex underline"
-										onClick={() => clearOneFilter("selectedSemester")}
-									>
-										Limpar filtro
-									</button>
-								) : null
+					<Select
+						items={DefaultSemesters}
+						label="Semestre"
+						description={
+							search.selectedSemester.length > 0 ? (
+								<button
+									className="flex underline"
+									onClick={() => clearOneFilter("selectedSemester")}
+								>
+									Limpar filtro
+								</button>
+							) : null
+						}
+						selectionMode="multiple"
+						onChange={(value) => {
+							if (value.target.value) {
+								setSearch(
+									"selectedSemester",
+									value.target.value.split(",").map(Number)
+								)
+							} else {
+								setSearch("selectedSemester", [])
 							}
-							selectionMode="multiple"
-							onChange={(value) => {
-								if (value.target.value) {
-									setSearch(
-										"selectedSemester",
-										value.target.value.split(",").map(Number)
-									)
-								} else {
-									setSearch("selectedSemester", [])
-								}
-							}}
-							selectedKeys={search.selectedSemester.map(String)}
-							className="flex-1 min-w-52"
-						>
-							{(semester) => (
-								<SelectItem key={semester.id} value={semester.id}>
-									{semester.name}
-								</SelectItem>
-							)}
-						</Select>
-					)}
-				</div>
-				{!editingMode && (
-					<Input
-						placeholder="Buscar pela disciplina"
-						onChange={(e) => setSearch("subjectSearch", e.target.value)}
-						value={search.subjectSearch}
-						classNames={{
-							inputWrapper: "h-full py-4",
 						}}
-						className="w-full"
-					/>
-				)}
-
-				{props.isAdmin && !props.editingOnly && (
-					<Button
-						onClick={handleToggleEditingMode}
-						color={editingMode ? "danger" : "primary"}
-						variant={editingMode ? "bordered" : "solid"}
+						selectedKeys={search.selectedSemester.map(String)}
+						className="flex-1 min-w-52"
 					>
-						{editingMode ? "Desativar modo de edição" : "Ativar modo de edição"}
-					</Button>
-				)}
+						{(semester) => (
+							<SelectItem key={semester.id} value={semester.id}>
+								{semester.name}
+							</SelectItem>
+						)}
+					</Select>
+				</div>
+				<Input
+					placeholder="Buscar pela disciplina"
+					onChange={(e) => setSearch("subjectSearch", e.target.value)}
+					value={search.subjectSearch}
+					classNames={{
+						inputWrapper: "h-full py-4",
+					}}
+					className="w-full"
+				/>
+
 				{(search.subjectSearch ||
 					search.selectedClassrooms.length > 0 ||
 					search.selectedProfessors.length > 0 ||
@@ -442,45 +362,6 @@ export default function CalendarClient(props: CalendarProps) {
 																	</button>
 																))}
 														</ScrollShadow>
-														{editingMode &&
-															search.selectedClassrooms.length > 0 &&
-															checkSlotIsAvailable(day, time) && (
-																<div className="absolute w-full h-full top-0 left-0 flex items-center justify-center">
-																	<Tooltip
-																		content={`Reservar ${
-																			search
-																				.selectedClassrooms
-																				.length == 1
-																				? mappedClassrooms.find(
-																						(
-																							classroom
-																						) =>
-																							classroom?.id ===
-																							search
-																								.selectedClassrooms[0]
-																				  )?.name
-																				: "laboratório"
-																		} das ${time} às ${addMinutes(
-																			time,
-																			Number(
-																				props.classDuration
-																			)
-																		)}`}
-																	>
-																		<Button
-																			className="w-1/2 h-1/2 flex items-center justify-center transition-all"
-																			onClick={() =>
-																				handleAddSchedule(
-																					day,
-																					time
-																				)
-																			}
-																		>
-																			<FaPlus />
-																		</Button>
-																	</Tooltip>
-																</div>
-															)}
 													</div>
 												))}
 											</div>
@@ -500,17 +381,6 @@ export default function CalendarClient(props: CalendarProps) {
 					onOpenChange={onViewOpenChange}
 				/>
 			)}
-
-			<ModalAddSchedule
-				isOpen={isAddOpen}
-				onOpenChange={onAddOpenChange}
-				selectedClassroom={addOptions.selectedClassroom}
-				selectedDay={addOptions.selectedDay}
-				startTime={addOptions.startTime}
-				endTime={addOptions.endTime}
-				classGroups={props.classGroups}
-				schedules={props.schedules}
-			/>
 		</>
 	)
 }

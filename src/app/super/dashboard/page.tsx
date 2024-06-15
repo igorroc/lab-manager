@@ -7,7 +7,7 @@ export default function SuperDashboard() {
 		<div>
 			<h1 className="font-bold text-2xl">Pré visualização dos horários</h1>
 			<div className="w-full relative">
-				<Calendar smaller isAdmin />
+				<Calendar smaller />
 			</div>
 		</div>
 	)

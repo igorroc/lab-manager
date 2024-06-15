@@ -5,11 +5,11 @@ import { getAllProfessors } from "@/actions/professors/get"
 import { getAllClassGroups } from "@/actions/class-groups/get"
 
 import CalendarClient from "./CalendarClient"
+import AdminCalendarClient from "./AdminCalendarClient"
 
 type CalendarProps = {
 	smaller?: boolean
 	isAdmin?: boolean
-	editingOnly?: boolean
 }
 
 export default async function Calendar(props: CalendarProps) {
@@ -34,16 +34,25 @@ export default async function Calendar(props: CalendarProps) {
 
 	return (
 		<div className="my-10 w-full">
+			{props.isAdmin && (
+				<AdminCalendarClient
+					schedules={schedules}
+					periods={periods}
+					classDuration={classDuration}
+					classrooms={classrooms}
+					professors={professors}
+					classGroups={classGroups}
+					smaller={props.smaller}
+				/>
+			)}
 			<CalendarClient
 				schedules={schedules}
 				periods={periods}
 				classDuration={classDuration}
 				classrooms={classrooms}
 				professors={professors}
-				smaller={props.smaller}
-				isAdmin={props.isAdmin}
 				classGroups={classGroups}
-				editingOnly={props.editingOnly}
+				smaller={props.smaller}
 			/>
 		</div>
 	)
