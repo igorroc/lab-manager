@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useState } from "react"
 import {
 	Modal,
 	ModalContent,
@@ -9,6 +10,7 @@ import {
 	ModalFooter,
 	Divider,
 	Tooltip,
+	Button,
 } from "@nextui-org/react"
 
 import { FaBook, FaClock } from "react-icons/fa6"
@@ -16,14 +18,26 @@ import { MdMeetingRoom } from "react-icons/md"
 import { FaChalkboardTeacher } from "react-icons/fa"
 
 import { ScheduleWithRelations } from "@/actions/schedules/get"
+import { deleteScheduleById } from "@/actions/schedules/delete"
 
 type ModalProps = {
 	isOpen: boolean
 	onOpenChange: () => void
 	selectedSchedule: ScheduleWithRelations
+	isAdmin?: boolean
 }
 
 export default function ModalSchedule(props: ModalProps) {
+	const [isLoading, setIsLoading] = useState(false)
+
+	async function handleDelete() {
+		setIsLoading(true)
+		await deleteScheduleById(props.selectedSchedule.id)
+
+		props.onOpenChange()
+		setIsLoading(false)
+	}
+
 	return (
 		<Modal isOpen={props.isOpen} onOpenChange={props.onOpenChange}>
 			<ModalContent>
@@ -72,7 +86,27 @@ export default function ModalSchedule(props: ModalProps) {
 						/>
 					</div>
 				</ModalBody>
-				<ModalFooter></ModalFooter>
+				<ModalFooter>
+					{props.isAdmin && (
+						<div className="flex gap-2 items-center">
+							<Button
+								color="danger"
+								variant="bordered"
+								onClick={handleDelete}
+								isLoading={isLoading}
+							>
+								Apagar
+							</Button>
+							<Button
+								as={Link}
+								href={`/super/schedules/${props.selectedSchedule.id}/edit`}
+								isDisabled={isLoading}
+							>
+								Editar
+							</Button>
+						</div>
+					)}
+				</ModalFooter>
 			</ModalContent>
 		</Modal>
 	)

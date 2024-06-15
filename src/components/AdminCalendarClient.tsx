@@ -373,6 +373,7 @@ export default function AdminCalendarClient(props: CalendarProps) {
 					selectedSchedule={selectedSchedule}
 					isOpen={isViewOpen}
 					onOpenChange={onViewOpenChange}
+					isAdmin
 				/>
 			)}
 
