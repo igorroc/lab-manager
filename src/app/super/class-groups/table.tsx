@@ -49,9 +49,19 @@ export default function ClassGroupsTable(props: OrderProps) {
 		const end = start + rowsPerPage
 
 		if (filterValue) {
-			return props.classGroups
-				.filter((item) => item.name.toLowerCase().includes(filterValue.toLowerCase()))
-				.slice(start, end)
+			const customFilter = (item: ClassGroupsWithRelations) => {
+				const professorName = item.professor.name.toLowerCase()
+				const subjectName = item.subject.name.toLowerCase()
+				const classroomName = item.classroom?.name.toLowerCase() || ""
+				const filter = filterValue.toLowerCase()
+
+				return (
+					professorName.includes(filter) ||
+					subjectName.includes(filter) ||
+					classroomName.includes(filter)
+				)
+			}
+			return props.classGroups.filter(customFilter).slice(start, end)
 		}
 
 		return props.classGroups.slice(start, end)
