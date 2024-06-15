@@ -9,7 +9,6 @@ export default async function Home() {
 		<main className="flex min-h-screen flex-col items-center p-8 md:p-24 text-center">
 			<h1 className="text-bold text-2xl">Gestão de laboratórios</h1>
 			<Calendar />
-			<Link href="/auth/login">Área de admin</Link>
 		</main>
 	)
 }
