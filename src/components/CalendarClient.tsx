@@ -1,6 +1,6 @@
 "use client"
 
-import { Classroom } from "@prisma/client"
+import { Classroom, Professor } from "@prisma/client"
 import { useEffect, useMemo, useState } from "react"
 import {
 	Button,
@@ -37,6 +37,8 @@ type CalendarProps = {
 	schedules: ScheduleWithRelations[]
 	classGroups: TClassGroupWithEverything[]
 	periods: TPeriod[]
+	classrooms: Classroom[]
+	professors: Professor[]
 	classDuration: string
 	smaller?: boolean
 	isAdmin?: boolean
@@ -66,21 +68,9 @@ export default function CalendarClient(props: CalendarProps) {
 		endTime: undefined,
 	})
 
-	const mappedProfessors = Array.from(
-		new Set(props.schedules.map((schedule) => schedule.classGroup.professor.id))
-	).map(
-		(id) =>
-			props.schedules.find((schedule) => schedule.classGroup.professor.id === id)?.classGroup
-				.professor
-	)
+	const mappedProfessors = props.professors
 
-	const mappedClassrooms = Array.from(
-		new Set(props.schedules.map((schedule) => schedule.classGroup.classroom?.id))
-	).map(
-		(id) =>
-			props.schedules.find((schedule) => schedule.classGroup.classroom?.id === id)?.classGroup
-				.classroom
-	)
+	const mappedClassrooms = props.classrooms
 
 	const mappedTimeSlots = props.periods.map((period) => {
 		const timeSlots = createTimeSlots(period.start, period.end, Number(props.classDuration))

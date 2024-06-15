@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { Classroom } from "@prisma/client"
+import { useEffect, useState } from "react"
 import {
 	Modal,
 	ModalContent,
@@ -15,13 +15,14 @@ import {
 	SelectItem,
 } from "@nextui-org/react"
 
-import { TClassGroupWithEverything } from "@/actions/class-groups/create"
+import { revalidateAll } from "@/actions/revalidate"
 import { ScheduleWithRelations } from "@/actions/schedules/get"
+import { createScheduleAction } from "@/actions/schedules/create"
+import { TClassGroupWithEverything } from "@/actions/class-groups/create"
+import { setClassroomToClassGroupAction } from "@/actions/class-groups/edit"
 
 import { TWeekDays } from "@/utils/WeekDay"
 import { checkTimeBetween } from "@/utils/Date"
-import { createScheduleAction } from "@/actions/schedules/create"
-import { setClassroomToClassGroupAction } from "@/actions/class-groups/edit"
 
 type ModalProps = {
 	isOpen: boolean
@@ -73,6 +74,7 @@ export default function ModalAddSchedule(props: ModalProps) {
 			return toast.error(created.error)
 		}
 		toast.success("Horário reservado com sucesso")
+		await revalidateAll()
 		onClose()
 	}
 

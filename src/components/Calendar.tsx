@@ -1,5 +1,7 @@
 import { getSetting } from "@/actions/settings/get"
 import { getAllSchedules } from "@/actions/schedules/get"
+import { getAllClassrooms } from "@/actions/classrooms/get"
+import { getAllProfessors } from "@/actions/professors/get"
 import { getAllClassGroups } from "@/actions/class-groups/get"
 
 import CalendarClient from "./CalendarClient"
@@ -13,6 +15,9 @@ type CalendarProps = {
 export default async function Calendar(props: CalendarProps) {
 	const schedules = await getAllSchedules()
 	const classGroups = await getAllClassGroups()
+	const classrooms = await getAllClassrooms()
+	const professors = await getAllProfessors()
+
 	const classDuration = await getSetting("classDuration", "50")
 	const periods = [
 		{
@@ -33,6 +38,8 @@ export default async function Calendar(props: CalendarProps) {
 				schedules={schedules}
 				periods={periods}
 				classDuration={classDuration}
+				classrooms={classrooms}
+				professors={professors}
 				smaller={props.smaller}
 				isAdmin={props.isAdmin}
 				classGroups={classGroups}
