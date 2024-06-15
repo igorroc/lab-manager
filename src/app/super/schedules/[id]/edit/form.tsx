@@ -39,8 +39,8 @@ export default function Form(props: FormProps) {
 			toast.error(created.error)
 		} else {
 			toast.success("Horário editado com sucesso!")
-			router.push("/super/schedules")
 			await revalidateAll()
+			router.push("/super/schedules")
 		}
 
 		setLoading(false)

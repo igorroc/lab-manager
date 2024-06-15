@@ -20,8 +20,8 @@ export default function Form() {
 			toast.error(created.error)
 		} else {
 			toast.success("Professor cadastrado com sucesso!")
-			router.push("/super/professors")
 			await revalidateAll()
+			router.push("/super/professors")
 		}
 
 		setLoading(false)

@@ -26,8 +26,8 @@ export default function Form(props: FormProps) {
 			toast.error(created.error)
 		} else {
 			toast.success("Disciplina cadastrada com sucesso!")
-			router.push("/super/subjects")
 			await revalidateAll()
+			router.push("/super/subjects")
 		}
 
 		setLoading(false)

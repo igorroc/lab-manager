@@ -26,8 +26,8 @@ export default function Form(props: FormProps) {
 			toast.error(edited.error)
 		} else {
 			toast.success("Professor editado com sucesso!")
-			router.push("/super/professors")
 			await revalidateAll()
+			router.push("/super/professors")
 		}
 
 		setLoading(false)

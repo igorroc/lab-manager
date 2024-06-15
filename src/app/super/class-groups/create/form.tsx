@@ -31,8 +31,8 @@ export default function Form(props: FormProps) {
 			toast.error(created.error)
 		} else {
 			toast.success("Turma cadastrada com sucesso!")
-			router.push("/super/class-groups")
 			await revalidateAll()
+			router.push("/super/class-groups")
 		}
 
 		setLoading(false)

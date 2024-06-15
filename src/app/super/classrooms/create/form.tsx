@@ -28,8 +28,8 @@ export default function Form() {
 			toast.error(created.error)
 		} else {
 			toast.success("Laboratório cadastrado com sucesso!")
-			router.push("/super/classrooms")
 			await revalidateAll()
+			router.push("/super/classrooms")
 		}
 
 		setLoading(false)

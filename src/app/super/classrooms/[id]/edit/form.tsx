@@ -34,8 +34,8 @@ export default function Form(props: FormProps) {
 			toast.error(created.error)
 		} else {
 			toast.success("Laboratório editado com sucesso!")
-			router.push("/super/classrooms")
 			await revalidateAll()
+			router.push("/super/classrooms")
 		}
 
 		setLoading(false)
