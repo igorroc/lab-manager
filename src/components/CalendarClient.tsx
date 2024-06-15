@@ -493,11 +493,13 @@ export default function CalendarClient(props: CalendarProps) {
 				</ScrollShadow>
 			)}
 
-			<ModalSchedule
-				selectedSchedule={selectedSchedule}
-				isOpen={isViewOpen}
-				onOpenChange={onViewOpenChange}
-			/>
+			{selectedSchedule && (
+				<ModalSchedule
+					selectedSchedule={selectedSchedule}
+					isOpen={isViewOpen}
+					onOpenChange={onViewOpenChange}
+				/>
+			)}
 
 			<ModalAddSchedule
 				isOpen={isAddOpen}

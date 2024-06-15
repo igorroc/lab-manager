@@ -1,77 +1,94 @@
 "use client"
 
 import Link from "next/link"
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react"
+import {
+	Modal,
+	ModalContent,
+	ModalHeader,
+	ModalBody,
+	ModalFooter,
+	Divider,
+	Tooltip,
+} from "@nextui-org/react"
 
-import { IoMdPin } from "react-icons/io"
-import { FaClock, FaUser } from "react-icons/fa6"
+import { FaBook, FaClock } from "react-icons/fa6"
+import { MdMeetingRoom } from "react-icons/md"
+import { FaChalkboardTeacher } from "react-icons/fa"
 
 import { ScheduleWithRelations } from "@/actions/schedules/get"
 
 type ModalProps = {
 	isOpen: boolean
 	onOpenChange: () => void
-	selectedSchedule: ScheduleWithRelations | null
+	selectedSchedule: ScheduleWithRelations
 }
 
 export default function ModalSchedule(props: ModalProps) {
-	if (!props.selectedSchedule) return null
-
 	return (
 		<Modal isOpen={props.isOpen} onOpenChange={props.onOpenChange}>
 			<ModalContent>
-				{(onClose) => (
-					<>
-						<ModalHeader className="flex flex-col gap-1">
-							({props.selectedSchedule?.classGroup.subject.code}){" "}
-							{props.selectedSchedule?.classGroup.subject.name} -{" "}
-							{props.selectedSchedule?.classGroup.name}
-						</ModalHeader>
-						<ModalBody>
-							<div className="flex flex-col gap-8">
-								<InfoItem
-									icon={<FaUser size={18} />}
-									title={props.selectedSchedule?.classGroup.professor.name || ""}
-									description={
-										props.selectedSchedule?.classGroup.professor.email ? (
-											<Link
-												className="text-primary text-sm underline"
-												href={`mailto:${props.selectedSchedule?.classGroup.professor.email}`}
-											>
-												{props.selectedSchedule?.classGroup.professor.email}
-											</Link>
-										) : null
-									}
-								/>
-								<InfoItem
-									icon={<FaClock size={18} />}
-									title={`${props.selectedSchedule?.startTime} - ${props.selectedSchedule?.endTime}`}
-								/>
-								<InfoItem
-									icon={<IoMdPin size={18} />}
-									title={
-										props.selectedSchedule?.classGroup.classroom?.name ||
-										"Sem sala definida"
-									}
-								/>
-							</div>
-						</ModalBody>
-						<ModalFooter></ModalFooter>
-					</>
-				)}
+				<ModalHeader className="flex flex-col gap-1">
+					{props.selectedSchedule.classGroup.subject.code}
+				</ModalHeader>
+				<ModalBody>
+					<div className="flex flex-col gap-4">
+						<InfoItem
+							icon={<FaBook size={18} />}
+							title={`${props.selectedSchedule.classGroup.subject.name} - ${props.selectedSchedule.classGroup.name}`}
+							tooltip="Turma"
+						/>
+						<InfoItem
+							icon={<FaClock size={18} />}
+							title={`${props.selectedSchedule.startTime} - ${props.selectedSchedule.endTime}`}
+							tooltip="Horário de início e término"
+						/>
+						<InfoItem
+							icon={<MdMeetingRoom size={18} />}
+							title={
+								props.selectedSchedule.classGroup.classroom?.name ||
+								"Sem sala definida"
+							}
+							tooltip="Laboratório/Sala de aula"
+						/>
+						<Divider />
+						<InfoItem
+							icon={<FaChalkboardTeacher size={18} />}
+							title={props.selectedSchedule.classGroup.professor.name || ""}
+							description={
+								<>
+									<Link
+										className="text-primary text-sm underline"
+										href={`mailto:${props.selectedSchedule.classGroup.professor.email}`}
+									>
+										{props.selectedSchedule.classGroup.professor.email}
+									</Link>
+								</>
+							}
+							tooltip="Professor(a)"
+						/>
+					</div>
+				</ModalBody>
+				<ModalFooter></ModalFooter>
 			</ModalContent>
 		</Modal>
 	)
 }
 
-function InfoItem(props: { icon: React.ReactNode; title: string; description?: React.ReactNode }) {
+function InfoItem(props: {
+	icon: React.ReactNode
+	title: string
+	description?: React.ReactNode
+	tooltip: string
+}) {
 	return (
-		<div className="flex-1 flex gap-2 items-center">
-			{props.icon}
-			<div className="flex flex-col">
-				<span>{props.title}</span>
-				{props.description}
+		<Tooltip content={props.tooltip} placement="top-start">
+			<div className="flex-1 flex gap-4 items-center">
+				{props.icon}
+				<div className="flex flex-col">
+					<span>{props.title}</span>
+					{props.description}
+				</div>
 			</div>
-		</div>
+		</Tooltip>
 	)
 }
