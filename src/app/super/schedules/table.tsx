@@ -63,6 +63,7 @@ export default function SchedulesTable(props: OrderProps) {
 	}, [page, props.schedules, filterValue])
 
 	const columns = [
+		{ key: "class-group", label: "Turma" },
 		{ key: "subject", label: "Disciplina" },
 		{ key: "classroom", label: "Laboratório" },
 		{ key: "dayOfWeek", label: "Dia da semana" },
@@ -87,6 +88,10 @@ export default function SchedulesTable(props: OrderProps) {
 					</Tooltip>
 				</div>
 			)
+		}
+
+		if (columnKey === "class-group") {
+			return item.classGroup.name
 		}
 
 		if (columnKey === "subject") {
