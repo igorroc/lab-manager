@@ -129,6 +129,10 @@ export default function CalendarClient(props: CalendarProps) {
 		setSearch("subjectSearch", "")
 	}
 
+	function clearOneFilter(filter: string) {
+		setSearch(filter, [])
+	}
+
 	function checkSlotIsAvailable(day: (typeof TWeekDays)[number], time: string) {
 		return (
 			filteredSchedules
@@ -174,13 +178,23 @@ export default function CalendarClient(props: CalendarProps) {
 
 	return (
 		<>
-			<div className="flex flex-col gap-2 justify-center items-center mx-auto mb-8 max-w-[875px]">
+			<div className="flex flex-col gap-2 justify-center items-center mx-auto max-w-[875px]">
 				<div className="flex flex-wrap gap-2 w-full">
 					<Select
 						items={mappedClassrooms.sort((a, b) =>
 							a && b ? a.name.localeCompare(b.name) : 0
 						)}
 						label="Laboratório"
+						description={
+							search.selectedClassrooms.length > 0 ? (
+								<button
+									className="flex underline"
+									onClick={() => clearOneFilter("selectedClassrooms")}
+								>
+									Limpar filtro
+								</button>
+							) : null
+						}
 						selectionMode={editingMode ? "single" : "multiple"}
 						errorMessage={
 							editingMode && search.selectedClassrooms.length == 0
@@ -212,6 +226,16 @@ export default function CalendarClient(props: CalendarProps) {
 							a && b ? a.name.localeCompare(b.name) : 0
 						)}
 						label="Professor"
+						description={
+							search.selectedProfessors.length > 0 ? (
+								<button
+									className="flex underline"
+									onClick={() => clearOneFilter("selectedProfessors")}
+								>
+									Limpar filtro
+								</button>
+							) : null
+						}
 						selectionMode="multiple"
 						onChange={(value) => {
 							if (value.target.value) {
@@ -237,6 +261,16 @@ export default function CalendarClient(props: CalendarProps) {
 						<Select
 							items={DefaultSemesters}
 							label="Semestre"
+							description={
+								search.selectedSemester.length > 0 ? (
+									<button
+										className="flex underline"
+										onClick={() => clearOneFilter("selectedSemester")}
+									>
+										Limpar filtro
+									</button>
+								) : null
+							}
 							selectionMode="multiple"
 							onChange={(value) => {
 								if (value.target.value) {
@@ -288,151 +322,176 @@ export default function CalendarClient(props: CalendarProps) {
 						className="opacity-50 underline font-light text-sm my-2 cursor-pointer"
 						onClick={clearFilter}
 					>
-						Limpar Filtros
+						Limpar todos os filtros
 					</button>
 				)}
 			</div>
 
-			<ScrollShadow
-				className="w-full max-w-[1300px] mx-auto text-center"
-				orientation="horizontal"
-				hideScrollBar
-			>
-				<div className="flex flex-col min-w-[1250px]">
-					<div className="w-full grid grid-cols-5">
-						{TWeekDays.map((day, index) => (
-							<div key={day.id}>
-								<h2 className="font-bold text-lg">{day.name}</h2>
-								<p>
-									{new Intl.DateTimeFormat("pt-BR", {
-										day: "2-digit",
-										month: "2-digit",
-									}).format(weekDates[index])}
-								</p>
+			<div className="p-5"></div>
+
+			{filteredSchedules.length === 0 ? (
+				<div className="p-4 rounded-lg bg-background">
+					<p className="text-center text-sm opacity-50">
+						Não há aulas cadastradas para esse filtro
+					</p>
+				</div>
+			) : (
+				<ScrollShadow
+					className="w-full max-w-[1300px] mx-auto text-center"
+					orientation="horizontal"
+					hideScrollBar
+				>
+					<div className="flex flex-col min-w-[1250px]">
+						<div className="w-full grid grid-cols-5">
+							{TWeekDays.map((day, index) => (
+								<div key={day.id}>
+									<h2 className="font-bold text-lg">{day.name}</h2>
+									<p>
+										{new Intl.DateTimeFormat("pt-BR", {
+											day: "2-digit",
+											month: "2-digit",
+										}).format(weekDates[index])}
+									</p>
+								</div>
+							))}
+						</div>
+						{mappedTimeSlots.map((period, index_period) => (
+							<div key={index_period}>
+								{index_period > 0 && <div className="h-8 relative"></div>}
+								{period.map((time, index) => {
+									return (
+										<div key={time}>
+											<div
+												className={`flex flex-col p-2 absolute ${
+													!collapsedTimeSlots[index_period][index]
+														? "justify-between h-40"
+														: "justify-center h-2 py-4"
+												} ${props.smaller ? "w-20" : "left-10 md:left-24"}`}
+											>
+												<h2 className="z-10">{time}</h2>
+												{!collapsedTimeSlots[index_period][index] && (
+													<h2 className="z-10">
+														{addMinutes(
+															time,
+															Number(props.classDuration)
+														)}
+													</h2>
+												)}
+											</div>
+											<div className="w-full grid grid-cols-5 relative overflow-auto">
+												{TWeekDays.map((day) => (
+													<div
+														key={day.id}
+														className={`relative border border-gray-100/10 ${
+															collapsedTimeSlots[index_period][index]
+																? ""
+																: "rounded-xl"
+														}`}
+													>
+														<ScrollShadow
+															className={`flex flex-col items-center transition-all py-4 ${
+																collapsedTimeSlots[index_period][
+																	index
+																]
+																	? "h-2"
+																	: "h-40"
+															}`}
+															hideScrollBar
+														>
+															{filteredSchedules
+																.filter(
+																	(schedule) =>
+																		schedule.dayOfWeek ===
+																		day.id
+																)
+																.filter(
+																	(schedule) =>
+																		checkTimeGreaterEqualThan(
+																			schedule.startTime,
+																			time
+																		) &&
+																		checkTimeGreaterThan(
+																			time,
+																			schedule.endTime
+																		)
+																)
+																.map((schedule) => (
+																	<button
+																		key={schedule.id}
+																		className="p-2 rounded-full shadow-md my-2 w-40 text-center"
+																		style={{
+																			backgroundColor:
+																				schedule.classGroup
+																					.color,
+																		}}
+																		onClick={() =>
+																			handleOpen(schedule)
+																		}
+																	>
+																		<p>
+																			{
+																				schedule.classGroup
+																					.subject.code
+																			}{" "}
+																			-{" "}
+																			{
+																				schedule.classGroup
+																					.name
+																			}
+																		</p>
+																	</button>
+																))}
+														</ScrollShadow>
+														{editingMode &&
+															search.selectedClassrooms.length > 0 &&
+															checkSlotIsAvailable(day, time) && (
+																<div className="absolute w-full h-full top-0 left-0 flex items-center justify-center">
+																	<Tooltip
+																		content={`Reservar ${
+																			search
+																				.selectedClassrooms
+																				.length == 1
+																				? mappedClassrooms.find(
+																						(
+																							classroom
+																						) =>
+																							classroom?.id ===
+																							search
+																								.selectedClassrooms[0]
+																				  )?.name
+																				: "laboratório"
+																		} das ${time} às ${addMinutes(
+																			time,
+																			Number(
+																				props.classDuration
+																			)
+																		)}`}
+																	>
+																		<Button
+																			className="w-1/2 h-1/2 flex items-center justify-center transition-all"
+																			onClick={() =>
+																				handleAddSchedule(
+																					day,
+																					time
+																				)
+																			}
+																		>
+																			<FaPlus />
+																		</Button>
+																	</Tooltip>
+																</div>
+															)}
+													</div>
+												))}
+											</div>
+										</div>
+									)
+								})}
 							</div>
 						))}
 					</div>
-					{mappedTimeSlots.map((period, index_period) => (
-						<div key={index_period}>
-							{index_period > 0 && <div className="h-8 relative"></div>}
-							{period.map((time, index) => {
-								return (
-									<div key={time}>
-										<div
-											className={`flex flex-col p-2 absolute ${
-												!collapsedTimeSlots[index_period][index]
-													? "justify-between h-40"
-													: "justify-center h-2 py-4"
-											} ${props.smaller ? "w-20" : "left-10 md:left-24"}`}
-										>
-											<h2 className="z-10">{time}</h2>
-											{!collapsedTimeSlots[index_period][index] && (
-												<h2 className="z-10">
-													{addMinutes(time, Number(props.classDuration))}
-												</h2>
-											)}
-										</div>
-										<div className="w-full grid grid-cols-5 relative overflow-auto">
-											{TWeekDays.map((day) => (
-												<div
-													key={day.id}
-													className={`relative border border-gray-100/10 ${
-														collapsedTimeSlots[index_period][index]
-															? ""
-															: "rounded-xl"
-													}`}
-												>
-													<ScrollShadow
-														className={`flex flex-col items-center transition-all py-4 ${
-															collapsedTimeSlots[index_period][index]
-																? "h-2"
-																: "h-40"
-														}`}
-														hideScrollBar
-													>
-														{filteredSchedules
-															.filter(
-																(schedule) =>
-																	schedule.dayOfWeek === day.id
-															)
-															.filter(
-																(schedule) =>
-																	checkTimeGreaterEqualThan(
-																		schedule.startTime,
-																		time
-																	) &&
-																	checkTimeGreaterThan(
-																		time,
-																		schedule.endTime
-																	)
-															)
-															.map((schedule) => (
-																<button
-																	key={schedule.id}
-																	className="p-2 rounded-full shadow-md my-2 w-40 text-center"
-																	style={{
-																		backgroundColor:
-																			schedule.classGroup
-																				.color,
-																	}}
-																	onClick={() =>
-																		handleOpen(schedule)
-																	}
-																>
-																	<p>
-																		{
-																			schedule.classGroup
-																				.subject.code
-																		}{" "}
-																		- {schedule.classGroup.name}
-																	</p>
-																</button>
-															))}
-													</ScrollShadow>
-													{editingMode &&
-														search.selectedClassrooms.length > 0 &&
-														checkSlotIsAvailable(day, time) && (
-															<div className="absolute w-full h-full top-0 left-0 flex items-center justify-center">
-																<Tooltip
-																	content={`Reservar ${
-																		search.selectedClassrooms
-																			.length == 1
-																			? mappedClassrooms.find(
-																					(classroom) =>
-																						classroom?.id ===
-																						search
-																							.selectedClassrooms[0]
-																			  )?.name
-																			: "laboratório"
-																	} das ${time} às ${addMinutes(
-																		time,
-																		Number(props.classDuration)
-																	)}`}
-																>
-																	<Button
-																		className="w-1/2 h-1/2 flex items-center justify-center transition-all"
-																		onClick={() =>
-																			handleAddSchedule(
-																				day,
-																				time
-																			)
-																		}
-																	>
-																		<FaPlus />
-																	</Button>
-																</Tooltip>
-															</div>
-														)}
-												</div>
-											))}
-										</div>
-									</div>
-								)
-							})}
-						</div>
-					))}
-				</div>
-			</ScrollShadow>
+				</ScrollShadow>
+			)}
 
 			<ModalSchedule
 				selectedSchedule={selectedSchedule}
