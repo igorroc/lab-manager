@@ -34,7 +34,7 @@ export default async function Calendar(props: CalendarProps) {
 
 	return (
 		<div className="my-10 w-full">
-			{props.isAdmin && (
+			{props.isAdmin ? (
 				<AdminCalendarClient
 					schedules={schedules}
 					periods={periods}
@@ -44,16 +44,17 @@ export default async function Calendar(props: CalendarProps) {
 					classGroups={classGroups}
 					smaller={props.smaller}
 				/>
+			) : (
+				<CalendarClient
+					schedules={schedules}
+					periods={periods}
+					classDuration={classDuration}
+					classrooms={classrooms}
+					professors={professors}
+					classGroups={classGroups}
+					smaller={props.smaller}
+				/>
 			)}
-			<CalendarClient
-				schedules={schedules}
-				periods={periods}
-				classDuration={classDuration}
-				classrooms={classrooms}
-				professors={professors}
-				classGroups={classGroups}
-				smaller={props.smaller}
-			/>
 		</div>
 	)
 }
