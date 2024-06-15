@@ -1,8 +1,8 @@
 import { getSetting } from "@/actions/settings/get"
 import { getAllSchedules } from "@/actions/schedules/get"
+import { getAllClassGroups } from "@/actions/class-groups/get"
 
 import CalendarClient from "./CalendarClient"
-import { getAllClassGroups } from "@/actions/class-groups/get"
 
 type CalendarProps = {
 	smaller?: boolean
