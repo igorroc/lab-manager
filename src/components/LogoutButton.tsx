@@ -17,14 +17,13 @@ export default function LogOutButton() {
 		const disconnecting = toast.loading("Desconectando...")
 		setIsLoggingOut(true)
 		await authenticateLogout()
-		setIsLoggingOut(false)
+		router.push("/auth/login")
 		toast.update(disconnecting, {
 			render: "Desconectado com sucesso",
 			type: "success",
 			isLoading: false,
 			autoClose: 2000,
 		})
-		router.push("/auth/login")
 	}
 
 	return (
