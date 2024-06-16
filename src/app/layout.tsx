@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 			"Descubra o sistema inovador de gestão de laboratórios da UESC, projetado para otimizar a reserva e o uso de espaços acadêmicos. Acesse informações atualizadas sobre disponibilidade de salas e organize seus horários com eficiência e transparência.",
 		title: "Lab Manager",
 		siteName: "Lab Manager",
-		url: "https://labs.ilrocha.com",
+		url: "https://lab.ilrocha.com",
 		images: [
 			{
 				url: "/banner.png",
