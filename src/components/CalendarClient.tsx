@@ -353,17 +353,11 @@ export default function CalendarClient(props: CalendarProps) {
 																			handleOpen(schedule)
 																		}
 																	>
-																		<p>
-																			{
-																				schedule.classGroup
-																					.subject.code
-																			}{" "}
-																			-{" "}
-																			{
-																				schedule.classGroup
-																					.name
-																			}
-																		</p>
+																		{
+																			schedule.classGroup
+																				.subject.code
+																		}{" "}
+																		- {schedule.classGroup.name}
 																	</button>
 																))}
 														</ScrollShadow>
