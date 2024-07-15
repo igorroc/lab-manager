@@ -21,6 +21,7 @@ import {
 } from "@/utils/Date"
 
 import ModalSchedule from "./ModalSchedule"
+import { getIdealTextColor } from "@/utils/Color"
 
 type CalendarProps = {
 	schedules: ScheduleWithRelations[]
@@ -343,6 +344,10 @@ export default function CalendarClient(props: CalendarProps) {
 																			backgroundColor:
 																				schedule.classGroup
 																					.color,
+																			color: getIdealTextColor(
+																				schedule.classGroup
+																					.color
+																			),
 																		}}
 																		onClick={() =>
 																			handleOpen(schedule)
